@@ -10,6 +10,15 @@ Automated tools like webdriver can be used, but requires additional programming 
 ## How Drishti Works?
 
 drishti.js runs test against the drishtiSpec defination. The drishtiSpec should be located within visualSpec folder. Multiple drishtiSpec can be defined in different visualSpec file and can be loaded as required.
+Directory structure:
+```
+├── js/
+│   ├── lib
+│   │   ├── drishti.js
+│   ├── visualSpec
+│   │   ├── home.js
+│   │   ├── other.js
+```
 
 ## How to write visualSpec file?
 visualSpec files accepts the below methods and format. All methods must use {} notations.
