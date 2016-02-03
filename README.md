@@ -1,13 +1,15 @@
 # Drishti
+
 Drishti is a visual regression testing tool, with focus on using browser as a standalone tool to execute tests and report.
 
 ## Why Drishti?
+
 Visual regression testing involves lots of efforts using manual testing. Traditionally it is done using eyeballing.
 Automated tools like webdriver can be used, but requires additional programming to drive this.
 
 ## How Drishti Works?
-1. drishti.js runs test againt the drishtiSpec.
-2. The drishtiSpec should be located within visualSpec folder. Multiple drishtiSpec can be defined in different visualSpec file and can be loaded as required.
+
+drishti.js runs test against the drishtiSpec defination. The drishtiSpec should be located within visualSpec folder. Multiple drishtiSpec can be defined in different visualSpec file and can be loaded as required.
 
 ## How to write visualSpec file?
 visualSpec files accepts the below methods and format. All methods must use {} notations.
