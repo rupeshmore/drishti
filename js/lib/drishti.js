@@ -161,7 +161,7 @@ var drishti = {
 		var startTime = new Date();
 		console.clear();
 		drishti.init();
-		console.log('%cDrishti%c%c Visual Testing' ,'color:blue;font-size : 25px','background: url("http://static.fairfaxmedia.co.nz/users/rmore/drishti/images/drishti-eye-blue-sm.png");padding-right:100px;font-size:20px; text-align: center',''); // Reporting
+		console.log('%cDrishti%c%c Visual Testing' ,'color:blue;font-size : 25px','background: url("./drishti/images/drishti-eye-blue-sm.png");padding-right:100px;font-size:20px; text-align: center',''); // Reporting
 		console.groupCollapsed('Drishti testing suite result');
 		drishti.iterate(drishtiSpec);
 		console.groupEnd();
