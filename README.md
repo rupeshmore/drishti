@@ -72,3 +72,6 @@ var drishtiSpec = {
     2. Open the browser web console.
     3. Copy the drishti.js file contents followed by visualSpec file.
     4. See test Results in the browser console.
+
+## drishti test results?
+drishti results are visible in the browser console.
