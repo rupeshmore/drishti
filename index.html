@@ -112,7 +112,19 @@ Directory structure:</p>
 <a id="how-to-run-drishti-tests" class="anchor" href="#how-to-run-drishti-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to run Drishti tests?</h2>
 
 <ol>
-<li>Use Bookmarklet to load the drishti.js file and visualSpec file. (see example)</li>
+<li>Use Bookmarklet to load the drishti.js file and visualSpec file.</li>
+<li class="try-now_instruction-item">
+        This bookmarklet will execute example tests on bbc.com with Drishti. Drag the bookmarklet to your bookmarks toolbar:
+        <div class="try-now_bookmarklet-container">
+          <div class="try-now_bookmarklet-tooltip hidden">
+            Drag and drop the button to your bookmarklet toolbar.
+          </div>
+          <a href="javascript:void%20function(){(function(t){function%20e(t,e){t.readyState%3Ft.onreadystatechange=function(){!e||%22loaded%22!==t.readyState%26%26%22complete%22!==t.readyState||(t.onreadystatechange=null,e())}:e%26%26(t.onload=function(){e()}),document.getElementsByTagName(%22head%22)[0].appendChild(t)}function%20n(t,n){var%20i=document.createElement(%22script%22);i.setAttribute(%22type%22,%22text/javascript%22),i.setAttribute(%22src%22,t),e(i,n)}function%20i(){(%22undefined%22==typeof%20drishti||0!==drishti.passes)%26%26n(t+%22visualSpec/bbcHome.js%22,function(){n(t+%22drishti.min.js%22),drishti.run()})}window.testScriptUrl=t,document.onload=i(function(){return%20null})})(%22//raw.githubusercontent.com/rupeshmore/drishti/master/example/%22)}();" class="try-now_bookmarklet-button button button--boring" draggable="true">
+            <span class="hidden">Drishti</span>
+          </a>
+        </div>
+      </li>
+
 <li>Use proxy method to auto include the dristhi.js and visual spec file.</li>
 <li>Manually load the files
 
