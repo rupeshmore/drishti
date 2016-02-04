@@ -74,13 +74,13 @@ var drishtiSpec = {
 ```
 
 ## How to run drishti tests?
-1. Use Bookmarklet to load the drihti.js file and visualSpec file. (see example)
-2. Use proxy method to auto include the disthi.js and visual spec file.
-3. Manaully load the files
-    1. Open test site with test browser
+1. Use Bookmarklet to load the drishti.js file and visualSpec file. (see example)
+2. Use proxy method to auto include the dristhi.js and visual spec file.
+3. Manually load the files
+    1. Open test site with test browser.
     2. Open the browser web console.
-    3. Copy the drishti.js file contents followed by visualSpec file.
-    4. See test Results in the browser console.
+    3. Copy paste the visualSpec file contents and then drishti.js file contents.
+    4. See test results in the browser console.
 
 ## drishti test results?
 drishti results are visible in the browser console.
