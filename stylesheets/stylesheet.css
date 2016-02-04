@@ -881,7 +881,7 @@ footer a:hover {
 
 /* */
 .btn {
-  width: 10em;  height: 1em;
+  width: 200px;  height: 50em;
   background: #3498db;
   background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
   background-image: -moz-linear-gradient(top, #3498db, #2980b9);
