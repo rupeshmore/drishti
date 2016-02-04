@@ -896,7 +896,7 @@ footer a:hover {
   background: #3498db;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
-  text-align: center;
+  text-align: center; line-height: 1em;
 }
 
 .btn:hover {
