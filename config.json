@@ -1,0 +1,5 @@
+{
+    "port": 9000,
+    "url": "http://www.stuff.co.nz",
+    "file": "data/_json.json"
+}

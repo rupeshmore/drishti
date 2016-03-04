@@ -1,0 +1,28 @@
+{
+  "name": "drishti",
+  "version": "1.0.0",
+  "description": "Visual",
+  "main": "server.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist && mkdir -p dist/js/lib/",
+    "minify": "uglifyjs src/js/lib/drishti.js --output dist/js/lib/drishti.min.js",
+    "start": "npm run clean && npm run minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rupeshmore/drishti.git"
+  },
+  "author": "Rupesh More",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rupeshmore/drishti/issues"
+  },
+  "homepage": "https://github.com/rupeshmore/drishti#readme",
+  "devDependencies": {
+    "uglify-js": "^2.6.2"
+  }
+}
