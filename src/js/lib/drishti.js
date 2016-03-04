@@ -12,6 +12,10 @@
  * LinkedIn : https://nz.linkedin.com/in/morerupesh
  */
 var drishti = {
+	mainObj: '',
+	parentObj : '', 
+	conditionValue : '',
+	refObj: '',
 	//passes : 0, failures : 0, notExecuted : 0, duration : 0,
 	elmVar  : {elm : '', elmRef : ''},
 	//assertsDone : 0,
@@ -34,9 +38,10 @@ var drishti = {
 		else return drishti.pass();
 	},
 	iterate: function(obj) {
-		if(typeof mainObj != 'object') mainObj = obj;
-		if(typeof parentObj != 'string') parentObj = '';
-		if(typeof conditionValue != 'string') conditionValue = '';
+		var myMethods;
+		if(typeof drishti.mainObj != 'object') drishti.mainObj = obj;
+		if(typeof drishti.parentObj != 'string') drishti.parentObj = '';
+		if(typeof drishti.conditionValue != 'string') drishti.conditionValue = '';
 
 	    for (var property in obj) {
 	        if (obj.hasOwnProperty(property)) {
@@ -48,38 +53,38 @@ var drishti = {
 		    	};
 		    	drishti.isElmNull = drishti.isAbsent(drishti.elmVar.elm); // handle null elements
 	    		console.groupCollapsed(property); // reporting
-	            	conditionValue +=  property + ' : ';
-	            	refObj = Object.keys(obj[property])[0];
+	            	drishti.conditionValue +=  property + ' : ';
+	            	drishti.refObj = Object.keys(obj[property])[0];
 
-	            	parentObj = property;
-	            	if (refObj in mainObj) {
+	            	drishti.parentObj = property;
+	            	if (drishti.refObj in drishti.mainObj) {
 	            		// To Do
 	            		// elm referenced with itself please provide valid reference. //if (true) {};
-	            		drishti.elmVar.elmRef = document.querySelector(''+mainObj[refObj]['selector']+'');
+	            		drishti.elmVar.elmRef = document.querySelector(''+drishti.mainObj[drishti.refObj]['selector']+'');
 	            	}
 	            	// child object handler -- start
-	            	if (parentObj === 'child') {
-	            		childObj = Object.keys(obj[property]);
+	            	if (drishti.parentObj === 'child') {
+	            		var childObj = Object.keys(obj[property]);
 	            		drishti.setChildParentFlag = false;
 	            	};
 	            	if (typeof childObj === 'object') {
 	            		var childIndex = childObj.indexOf(property);
 	            		if (childIndex !== -1) {
-		            		refObj = childObj[childIndex];
+		            		drishti.refObj = childObj[childIndex];
 		            		if (!drishti.isElmNull) (drishti.methods.child)(); // call child function with refObj updated
 	            		};
 	            	};
 	            	// child object handler -- end
 
 	            	myMethods = drishti.methods[property];
-	            	if (myMethods !== undefined && !drishti.isElmNull && parentObj !== 'child') drishti.actualValue = myMethods();
+	            	if (myMethods !== undefined && !drishti.isElmNull && drishti.parentObj !== 'child') drishti.actualValue = myMethods();
 	            	drishti.iterate(obj[property]);
 	            }
 	            else{
 	            	drishti.expectedValue = obj[property];
-	            	printValue = drishti.expectedValue; // Safari showing undefined character in the object
+	            	var printValue = drishti.expectedValue; // Safari showing undefined character in the object
 	            	if (property !== 'selector') {
-	            		conditionValue += property +' : '+ drishti.expectedValue;
+	            		drishti.conditionValue += property +' : '+ drishti.expectedValue;
 
 		            	// check if the expected value is string and do the conversion.
 		            	if (/(\d+)%$/.test(drishti.expectedValue)) {
@@ -104,9 +109,9 @@ var drishti = {
 
 		            	if (drishti.actualValue !== null) {
 			            	//Handling response from aligned method and cssContains method
-			            	if((parentObj === 'aligned' || parentObj === 'cssContains') && drishti.actualValue.indexOf(drishti.expectedValue)!== -1) drishti.actualValue = drishti.expectedValue;
+			            	if((drishti.parentObj === 'aligned' || drishti.parentObj === 'cssContains') && drishti.actualValue.indexOf(drishti.expectedValue)!== -1) drishti.actualValue = drishti.expectedValue;
 
-			                assertStatus = drishti.assert(drishti.actualValue,drishti.expectedValue);
+			                var assertStatus = drishti.assert(drishti.actualValue,drishti.expectedValue);
 			                
 		                	//Console line Reporting
 					        if (assertStatus) console.log('%c '+property+' : '+printValue+'','color:green;');
@@ -114,7 +119,7 @@ var drishti = {
 		                };
 	            	}
 	            };
-	           	conditionValue = '';
+	           	drishti.conditionValue = '';
 	        }
 		}
 		console.groupEnd(); // reporting
@@ -132,12 +137,12 @@ var drishti = {
 	error: function() {
 		if (!drishti.isElmNull) drishti.elmVar.elm.style.outline = '#f00 solid 5px';
 		if(Array.isArray(drishti.actualValue)) drishti.actualValue = JSON.stringify(drishti.actualValue);
-		drishti.errorTable.push({Element:drishti.elm1,ElementName:drishti.elmName,Condition:conditionValue,Actual:drishti.actualValue,Expected:drishti.expectedValue});
+		drishti.errorTable.push({Element:drishti.elm1,ElementName:drishti.elmName,Condition:drishti.conditionValue,Actual:drishti.actualValue,Expected:drishti.expectedValue});
 		drishti.failures += 1;
 		return false;
 	},
 	notRun: function() {
-		drishti.notExecutedTable.push({Element:drishti.elm1,ElementName:drishti.elmName,Condition:conditionValue,Actual:drishti.actualValue,Expected:drishti.expectedValue});
+		drishti.notExecutedTable.push({Element:drishti.elm1,ElementName:drishti.elmName,Condition:drishti.conditionValue,Actual:drishti.actualValue,Expected:drishti.expectedValue});
 		drishti.notExecuted += 1;
 		return null;
 	},
@@ -194,7 +199,7 @@ var drishti = {
 			console.groupEnd();
 		}
 	},
-	methods : {
+	methods: {
 		above:function(){
 			return drishti.elmVar.elmRef.offsetTop - (drishti.elmVar.elm.offsetTop + drishti.elmVar.elm.offsetHeight);
 		},
@@ -208,7 +213,7 @@ var drishti = {
 			return drishti.elmVar.elm.offsetLeft - (drishti.elmVar.elmRef.offsetLeft + drishti.elmVar.elmRef.offsetWidth);
 		},
 		childItems:function() {
-			return drishti.elmVar.elm.querySelectorAll(''+refObj+'').length;
+			return drishti.elmVar.elm.querySelectorAll(''+drishti.refObj+'').length;
 		},
 		widthAs:function() {
 	    	drishti.expectedValueofRef = drishti.elmVar.elmRef.offsetWidth;
@@ -266,11 +271,11 @@ var drishti = {
 			return alignedValue;
 		},
 		attribute:function(){
-			var elmAttr = drishti.elmVar.elm.attributes[refObj];
+			var elmAttr = drishti.elmVar.elm.attributes[drishti.refObj];
 			if (elmAttr !== undefined) return elmAttr.value;
 		},
 		cssContains:function(){
-			return drishti.getComputedStyle(drishti.elmVar.elm,refObj);
+			return drishti.getComputedStyle(drishti.elmVar.elm,drishti.refObj);
 		},
 		click:function () {
 			if (drishti.expectedValue) drishti.elmVar.elm.click();
@@ -285,7 +290,7 @@ var drishti = {
 				parentElm = drishti.elmVar.elm;
 				drishti.setChildParentFlag = true;
 			};
-			drishti.elmVar.elm = parentElm.querySelector(''+refObj+'');
+			drishti.elmVar.elm = parentElm.querySelector(''+drishti.refObj+'');
 			return null;
 		},
 		showInViewport:function() {
