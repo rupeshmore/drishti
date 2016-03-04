@@ -22,6 +22,11 @@ var drishti = {
 	init: function () {
 		drishti.passes = 0; drishti.failures = 0; drishti.notExecuted = 0; drishti.duration = 0;
 		drishti.assertsDone = 0;
+		for (var i in drishti.errorTable) {
+			var elm = drishti.errorTable[i].Element;
+			document.querySelector(elm).style.outline = '';
+			drishti.errorTable.splice(i, 1);
+		}
 	},
 	assert: function(value1,value2){
 		drishti.assertsDone += 1;
@@ -36,13 +41,13 @@ var drishti = {
 	    for (var property in obj) {
 	        if (obj.hasOwnProperty(property)) {
 	            if (typeof obj[property] == 'object'){
-				    if ('selector' in obj[property]){
-				    	drishti.elm1 = obj[property]['selector'];
-			    		drishti.elmVar.elm = document.querySelector(''+drishti.elm1+'');
-			    		drishti.elmName = property; // reporting
-			    	};
-			    	drishti.isElmNull = drishti.isAbsent(drishti.elmVar.elm); // handle null elements
-		    		console.groupCollapsed(property); // reporting
+			    if ('selector' in obj[property]){
+			    	drishti.elm1 = obj[property]['selector'];
+		    		drishti.elmVar.elm = document.querySelector(''+drishti.elm1+'');
+		    		drishti.elmName = property; // reporting
+		    	};
+		    	drishti.isElmNull = drishti.isAbsent(drishti.elmVar.elm); // handle null elements
+	    		console.groupCollapsed(property); // reporting
 	            	conditionValue +=  property + ' : ';
 	            	refObj = Object.keys(obj[property])[0];
 
@@ -78,16 +83,16 @@ var drishti = {
 
 		            	// check if the expected value is string and do the conversion.
 		            	if (/(\d+)%$/.test(drishti.expectedValue)) {
-	    					var percentageDivisor = 100 / parseInt(RegExp.$1);
-	    					drishti.expectedValue = drishti.expectedValueofRef/percentageDivisor;
-	    					printValue = JSON.stringify(printValue);
-	    				} else if (/^([\+\-])(\d+)/.test(drishti.expectedValue)){
-	    					drishti.expectedValue = drishti.expectedValueofRef + parseInt(RegExp.$_);
-	    					printValue = JSON.stringify(printValue);
-				    	};
-
-				    	//if element is null call only absent method to check
-				    	if (drishti.isElmNull && property !== 'absent') {
+    					var percentageDivisor = 100 / parseInt(RegExp.$1);
+    					drishti.expectedValue = drishti.expectedValueofRef/percentageDivisor;
+    					printValue = JSON.stringify(printValue);
+    				} else if (/^([\+\-])(\d+)/.test(drishti.expectedValue)){
+    					drishti.expectedValue = drishti.expectedValueofRef + parseInt(RegExp.$_);
+    					printValue = JSON.stringify(printValue);
+			    	};
+	
+			    	//if element is null call only absent method to check
+			    	if (drishti.isElmNull && property !== 'absent') {
 		            		drishti.actualValue = null;
 		            		console.log('%c '+property+' : '+printValue+'  		Element not present, no test executed','color:orange');
 		            		drishti.notRun();
