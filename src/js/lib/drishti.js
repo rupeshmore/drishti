@@ -13,18 +13,27 @@
  */
 var drishti = {
 	mainObj: '',
-	parentObj : '', 
-	conditionValue : '',
+	parentObj: '',
+	conditionValue: '',
 	refObj: '',
-	//passes : 0, failures : 0, notExecuted : 0, duration : 0,
-	elmVar  : {elm : '', elmRef : ''},
-	//assertsDone : 0,
-	//elmName : '', elm1 : '',
-	isElmNull : false, 	setChildParentFlag : false,
-	actualValue : '',  expectedValue : ''	, expectedValueofRef : '',
-	errorTable : [],notExecutedTable : [],
+	elmVar: {
+		elm: '',
+		elmRef: ''
+	},
+	elmName: '',
+	elm1 : '',
+	isElmNull: false,
+	setChildParentFlag : false,
+	actualValue: '',
+	expectedValue: '',
+	expectedValueofRef: '',
+	errorTable: [],
+	notExecutedTable: [],
 	init: function () {
-		drishti.passes = 0; drishti.failures = 0; drishti.notExecuted = 0; drishti.duration = 0;
+		drishti.passes = 0;
+		drishti.failures = 0;
+		drishti.notExecuted = 0;
+		drishti.duration = 0;
 		drishti.assertsDone = 0;
 		for (var i in drishti.errorTable) {
 			var elm = drishti.errorTable[i].Element;
@@ -32,95 +41,98 @@ var drishti = {
 			drishti.errorTable.splice(i, 1);
 		}
 	},
-	assert: function(value1,value2){
-		drishti.assertsDone += 1;
-		if (value1 !== value2) return drishti.error();
-		else return drishti.pass();
+	assert: function(value1,value2) {
+		this.assertsDone += 1;
+		if (value1 !== value2) {
+			return this.error();
+		}else {
+			return this.pass();
+		}
 	},
 	iterate: function(obj) {
 		var myMethods;
-		if(typeof drishti.mainObj != 'object') drishti.mainObj = obj;
-		if(typeof drishti.parentObj != 'string') drishti.parentObj = '';
-		if(typeof drishti.conditionValue != 'string') drishti.conditionValue = '';
+		if (typeof this.mainObj != 'object') this.mainObj = obj;
+		if (typeof this.parentObj != 'string') this.parentObj = '';
+		if (typeof this.conditionValue != 'string') this.conditionValue = '';
 
-	    for (var property in obj) {
-	        if (obj.hasOwnProperty(property)) {
-	            if (typeof obj[property] == 'object'){
-			    if ('selector' in obj[property]){
-			    	drishti.elm1 = obj[property]['selector'];
-		    		drishti.elmVar.elm = document.querySelector(''+drishti.elm1+'');
-		    		drishti.elmName = property; // reporting
-		    	};
-		    	drishti.isElmNull = drishti.isAbsent(drishti.elmVar.elm); // handle null elements
-	    		console.groupCollapsed(property); // reporting
-	            	drishti.conditionValue +=  property + ' : ';
-	            	drishti.refObj = Object.keys(obj[property])[0];
-
-	            	drishti.parentObj = property;
-	            	if (drishti.refObj in drishti.mainObj) {
-	            		// To Do
-	            		// elm referenced with itself please provide valid reference. //if (true) {};
-	            		drishti.elmVar.elmRef = document.querySelector(''+drishti.mainObj[drishti.refObj]['selector']+'');
-	            	}
-	            	// child object handler -- start
-	            	if (drishti.parentObj === 'child') {
-	            		var childObj = Object.keys(obj[property]);
-	            		drishti.setChildParentFlag = false;
-	            	};
-	            	if (typeof childObj === 'object') {
-	            		var childIndex = childObj.indexOf(property);
-	            		if (childIndex !== -1) {
-		            		drishti.refObj = childObj[childIndex];
-		            		if (!drishti.isElmNull) (drishti.methods.child)(); // call child function with refObj updated
-	            		};
-	            	};
-	            	// child object handler -- end
-
-	            	myMethods = drishti.methods[property];
-	            	if (myMethods !== undefined && !drishti.isElmNull && drishti.parentObj !== 'child') drishti.actualValue = myMethods();
-	            	drishti.iterate(obj[property]);
-	            }
-	            else{
-	            	drishti.expectedValue = obj[property];
-	            	var printValue = drishti.expectedValue; // Safari showing undefined character in the object
-	            	if (property !== 'selector') {
-	            		drishti.conditionValue += property +' : '+ drishti.expectedValue;
-
-		            	// check if the expected value is string and do the conversion.
-		            	if (/(\d+)%$/.test(drishti.expectedValue)) {
-    					var percentageDivisor = 100 / parseInt(RegExp.$1);
-    					drishti.expectedValue = drishti.expectedValueofRef/percentageDivisor;
+		for (var property in obj) {
+			if (obj.hasOwnProperty(property)) {
+				if (typeof obj[property] == 'object') {
+					if ('selector' in obj[property]) {
+						drishti.elm1 = obj[property]['selector'];
+						drishti.elmVar.elm = document.querySelector(''+drishti.elm1+'');
+						drishti.elmName = property;
+					}
+					drishti.isElmNull = drishti.isAbsent(drishti.elmVar.elm); // handle null elements
+					console.groupCollapsed(property); // console reporting
+					this.conditionValue +=  property + ' : ';
+					drishti.refObj = Object.keys(obj[property])[0];
+					drishti.parentObj = property;
+					if (drishti.refObj in this.mainObj) {
+						// To Do
+						// elm referenced with itself please provide valid reference. //if (true) {};
+						drishti.elmVar.elmRef = document.querySelector(''+drishti.mainObj[drishti.refObj]['selector']+'');
+					}
+					// child object handler -- start
+					if (drishti.parentObj === 'child') {
+						var childObj = Object.keys(obj[property]);
+						drishti.setChildParentFlag = false;
+					};
+					if (typeof childObj === 'object') {
+						var childIndex = childObj.indexOf(property);
+						if (childIndex !== -1) {
+							drishti.refObj = childObj[childIndex];
+							if (!drishti.isElmNull) (drishti.methods.child)(); // call child function with refObj updated
+						}
+					}
+					// child object handler -- end
+					console.log()
+					myMethods = drishti.methods[property];
+					if (myMethods !== undefined && !drishti.isElmNull && drishti.parentObj !== 'child') this.actualValue = myMethods();
+					drishti.iterate(obj[property]);
+				}else if (property !== 'selector') {
+						this.expectedValue = obj[property];
+						var printValue = this.expectedValue; // Safari showing undefined character in the object
+						drishti.conditionValue += property +' : '+ drishti.expectedValue;
+						// check if the expected value is string and do the conversion.
+						if (/(\d+)%$/.test(this.expectedValue)) {
+							var percentageDivisor = 100 / parseInt(RegExp.$1);
+    					this.expectedValue = this.expectedValueofRef/percentageDivisor;
     					printValue = JSON.stringify(printValue);
-    				} else if (/^([\+\-])(\d+)/.test(drishti.expectedValue)){
-    					drishti.expectedValue = drishti.expectedValueofRef + parseInt(RegExp.$_);
+    				}else if (/^([\+\-])(\d+)/.test(this.expectedValue)) {
+    					this.expectedValue = this.expectedValueofRef + parseInt(RegExp.$_);
     					printValue = JSON.stringify(printValue);
 			    	};
-	
+
 			    	//if element is null call only absent method to check
 			    	if (drishti.isElmNull && property !== 'absent') {
-		            		drishti.actualValue = null;
-		            		console.log('%c '+property+' : '+printValue+'  		Element not present, no test executed','color:orange');
-		            		drishti.notRun();
-		            	}else{
-		            		//if (parentObj === 'attribute') {refObj = property; property = parentObj};
-		            		myMethods = drishti.methods[property];
-		            		if (myMethods !== undefined) drishti.actualValue = myMethods();
-		            	}
+							this.actualValue = null;
+							console.log('%c '+property+' : '+printValue+'			Element not present, no test executed','color:orange');
+							this.notExec();
+						}else {
+							//if (parentObj === 'attribute') {refObj = property; property = parentObj};
+							myMethods = this.methods[property];
+							if (myMethods !== undefined) {
+								this.actualValue = myMethods();
+							}
+						}
 
-		            	if (drishti.actualValue !== null) {
-			            	//Handling response from aligned method and cssContains method
-			            	if((drishti.parentObj === 'aligned' || drishti.parentObj === 'cssContains') && drishti.actualValue.indexOf(drishti.expectedValue)!== -1) drishti.actualValue = drishti.expectedValue;
-
-			                var assertStatus = drishti.assert(drishti.actualValue,drishti.expectedValue);
-			                
-		                	//Console line Reporting
-					        if (assertStatus) console.log('%c '+property+' : '+printValue+'','color:green;');
-							else console.log('%c '+property+' : '+printValue+'  		{Expected = '+drishti.expectedValue+ ', Actual = '+drishti.actualValue+'}','color:red;','');
-		                };
-	            	}
-	            };
-	           	drishti.conditionValue = '';
-	        }
+						if (this.actualValue !== null) {
+							//Handling response from aligned method and cssContains method
+							if ((drishti.parentObj === 'aligned' || drishti.parentObj === 'cssContains') && this.actualValue.indexOf(this.expectedValue)!== -1) {
+								this.actualValue = this.expectedValue;
+							}
+							//var assertStatus = drishti.assert(this.actualValue,this.expectedValue);
+							//Console line Reporting
+							if (drishti.assert(this.actualValue,this.expectedValue)) {
+								console.log('%c '+property+' : '+printValue+'','color:green;');
+							}else {
+								console.log('%c '+property+' : '+printValue+'			{Expected: '+drishti.expectedValue+ ', Actual: '+drishti.actualValue+'}','color:red;','');
+							}
+						}
+				}
+				drishti.conditionValue = '';
+			}
 		}
 		console.groupEnd(); // reporting
 	},
@@ -135,157 +147,189 @@ var drishti = {
 		return true;
 	},
 	error: function() {
-		if (!drishti.isElmNull) drishti.elmVar.elm.style.outline = '#f00 solid 5px';
-		if(Array.isArray(drishti.actualValue)) drishti.actualValue = JSON.stringify(drishti.actualValue);
-		drishti.errorTable.push({Element:drishti.elm1,ElementName:drishti.elmName,Condition:drishti.conditionValue,Actual:drishti.actualValue,Expected:drishti.expectedValue});
-		drishti.failures += 1;
+		this.failures += 1;
+		if (!this.isElmNull) {
+			this.elmVar.elm.style.outline = '#f00 solid 5px';
+		}
+		if (Array.isArray(this.actualValue)) {
+			this.actualValue = JSON.stringify(this.actualValue);
+		}
+		this.errorTable.push({
+			Element:this.elm1,
+			ElementName:this.elmName,
+			Condition:this.conditionValue,
+			Actual:this.actualValue,
+			Expected:this.expectedValue
+		});
 		return false;
 	},
-	notRun: function() {
-		drishti.notExecutedTable.push({Element:drishti.elm1,ElementName:drishti.elmName,Condition:drishti.conditionValue,Actual:drishti.actualValue,Expected:drishti.expectedValue});
-		drishti.notExecuted += 1;
+	notExec: function() {
+		this.notExecuted += 1;
+		this.notExecutedTable.push({
+			Element:this.elm1,
+			ElementName:this.elmName,
+			Condition:this.conditionValue,
+			Actual:this.actualValue,
+			Expected:this.expectedValue
+		});
 		return null;
 	},
 	getComputedStyle: function(element, style) {
 		var computedStyle = {};
-	    if (typeof element.currentStyle != "undefined") {
-	        computedStyle = element.currentStyle[style];
-	    }else {
-	        computedStyle = document.defaultView.getComputedStyle(element, null)[style];
-	    }
-	    return computedStyle;
+		if (typeof element.currentStyle != "undefined") {
+			computedStyle = element.currentStyle[style];
+		}else {
+			computedStyle = document.defaultView.getComputedStyle(element, null)[style];
+		}
+		return computedStyle;
 	},
 	isVisible: function(element) {
-		if (element.offsetWidth > 0 || element.offsetHeight > 0) return true;
-		else return false;
+		if (element.offsetWidth > 0 || element.offsetHeight > 0) {
+			return true;
+		}else {
+			return false;
+		}
 	},
 	isAbsent: function(element) {
-		if (element === null) return true;
-		else return false;
+		if (element === null) {
+			return true;
+		}else {
+			return false;
+		}
 	},
 	run:function() {
 		if (typeof drishtiSpec === 'undefined') {
-				console.error('drishtiSpec is not defined. Make sure you have visualSpec folder and visualSpec file');
-				return null;
+			console.error('drishtiSpec is not defined. Make sure you have visualSpec folder and visualSpec file');
+			return null;
 		}
 		var startTime = new Date();
+
 		console.clear();
-		drishti.init();
-		console.log('%cDrishti%c%c Visual Testing' ,'color:blue;font-size : 25px','background: url("./drishti/images/drishti-eye-blue-sm.png");padding-right:100px;font-size:20px; text-align: center',''); // Reporting
+		this.init();
+		console.log('%cDrishti%c%c Visual Testing' ,'color:blue;font-size : 25px','background: url("./images/drishti-eye-blue-sm.png");padding-right:100px;font-size:20px; text-align: center',''); // Reporting
 		console.groupCollapsed('Drishti testing suite result');
-		drishti.iterate(drishtiSpec);
+		this.iterate(drishtiSpec);
 		console.groupEnd();
 
 		var endTime = new Date();
 		duration = (endTime - startTime);
-		drishti.result();
+		this.result();
 	},
 	result:function () {
-		if (drishti.notExecuted < 1) {
-			console.log('%cpasses: %c'+drishti.passes+' , %cfailures: %c'+drishti.failures+' %c, duration: %c'+duration+'ms',
+		if (this.notExecuted < 1) {
+			console.log('%cpasses: %c'+this.passes+' , %cfailures: %c'+this.failures+' %c, duration: %c'+duration+'ms',
 			  'color:green;font-size:16px','color:green;font-style:italic;font-size:18px',
 				'color:red;font-size:16px','color:red;font-style:italic;font-size:18px',
 				'font-size:16px', 'font-style:italic;font-size:18px');
-		}else{
-			console.log('%cpasses: %c'+drishti.passes+' , %cfailures: %c'+drishti.failures+' , %cnot executed: %c'+drishti.notExecuted+' %c, duration: %c'+duration+'ms',
+		}else {
+			console.log('%cpasses: %c'+this.passes+' , %cfailures: %c'+this.failures+' , %cnot executed: %c'+this.notExecuted+' %c, duration: %c'+duration+'ms',
 			  'color:green; font-size : 16px','color:green; font-style:italic; font-size : 18px',
 				'color:red; font-size : 16px','color: red; font-style: italic;font-size : 18px',
 				'color:orange; font-size : 16px','color: orange; font-style: italic;font-size : 18px','font-size : 16px',
 				'font-style: italic;font-size : 18px');
 		};
-		if (drishti.failures > 0) {
+		if (this.failures > 0) {
 			console.groupCollapsed('%cdrishti: Error Table','color:grey; font-size:10;');
-			drishti.showError();
+			this.showError();
 			console.groupEnd();
 		}
 	},
 	methods: {
-		above:function(){
+		above: function() {
 			return drishti.elmVar.elmRef.offsetTop - (drishti.elmVar.elm.offsetTop + drishti.elmVar.elm.offsetHeight);
 		},
-		below:function() {
+		below: function() {
 			return drishti.elmVar.elm.offsetTop - (drishti.elmVar.elmRef.offsetTop + drishti.elmVar.elmRef.offsetHeight);
 		},
-		leftOf:function() {
+		leftOf: function() {
 			return  drishti.elmVar.elmRef.offsetLeft - (drishti.elmVar.elm.offsetLeft + drishti.elmVar.elm.offsetWidth);
 		},
-		rightOf:function() {
+		rightOf: function() {
 			return drishti.elmVar.elm.offsetLeft - (drishti.elmVar.elmRef.offsetLeft + drishti.elmVar.elmRef.offsetWidth);
 		},
-		childItems:function() {
+		childItems: function() {
 			return drishti.elmVar.elm.querySelectorAll(''+drishti.refObj+'').length;
 		},
-		widthAs:function() {
+		widthAs: function() {
 	    	drishti.expectedValueofRef = drishti.elmVar.elmRef.offsetWidth;
 			return drishti.elmVar.elm.offsetWidth;
 		},
-		heightAs:function() {
+		heightAs: function() {
 	    	drishti.expectedValueofRef = drishti.elmVar.elmRef.offsetHeight;
 			return drishti.elmVar.elm.offsetHeight;
 		},
-		width:function(){
+		width: function() {
 			return drishti.elmVar.elm.offsetWidth;
 		},
-		height:function(){
+		height: function() {
 			return drishti.elmVar.elm.offsetHeight;
 		},
-		absent:function(){
+		absent: function() {
 			return drishti.isAbsent(drishti.elmVar.elm);
 		},
-		visible:function(){
+		visible: function() {
 			return drishti.isVisible(drishti.elmVar.elm);
 		},
-		top:function(){
+		top: function() {
 			return drishti.elmVar.elm.offsetTop - drishti.elmVar.elmRef.offsetTop;
 		},
-		right:function(){
+		right: function() {
 			return (drishti.elmVar.elmRef.offsetLeft + drishti.elmVar.elmRef.offsetWidth) - (drishti.elmVar.elm.offsetLeft + drishti.elmVar.elm.offsetWidth);
 		},
-		bottom:function(){
+		bottom: function() {
 			return (drishti.elmVar.elmRef.offsetTop + drishti.elmVar.elmRef.offsetHeight) - (drishti.elmVar.elm.offsetTop + drishti.elmVar.elm.offsetHeight);
 		},
-		left:function(){
+		left: function() {
 			return drishti.elmVar.elm.offsetLeft - drishti.elmVar.elmRef.offsetLeft;
 		},
-		childList:function(){
+		childList: function() {
 			return drishti.elmVar.elm.querySelectorAll('li').length;
 		},
-		textIs:function(){
+		textIs: function() {
 			return drishti.elmVar.elm.textContent;
 		},
-		textContains:function(){
+		textContains: function() {
 			var textValue = drishti.elmVar.elm.textContent;
-			if (textValue.indexOf(drishti.expectedValue) !== -1) return drishti.expectedValue;
-			else return textValue;
+			if (textValue.indexOf(this.expectedValue) !== -1) {
+				return this.expectedValue;
+			}else {
+				return textValue;
+			}
 		},
-		aligned:function(){
+		aligned: function() {
 			var alignedValue = [];
 			elmRefTop = drishti.elmVar.elmRef.offsetTop;
 			elmTop = drishti.elmVar.elm.offsetTop;
 			elmRefLeft = drishti.elmVar.elmRef.offsetLeft;
 			elmLeft = drishti.elmVar.elm.offsetLeft;
-			if(elmRefTop === elmTop) alignedValue.push('Top');
-			if(elmRefLeft === elmLeft) 	alignedValue.push('Left');
-			if((elmRefTop+drishti.elmVar.elmRef.offsetHeight) === (elmTop+drishti.elmVar.elm.offsetHeight)) alignedValue.push('Bottom');
-			if((elmRefLeft+drishti.elmVar.elmRef.offsetWidth) === (elmLeft+drishti.elmVar.elm.offsetWidth)) alignedValue.push('Right');
+			if (elmRefTop === elmTop) alignedValue.push('Top');
+			if (elmRefLeft === elmLeft) 	alignedValue.push('Left');
+			if ((elmRefTop+drishti.elmVar.elmRef.offsetHeight) === (elmTop+drishti.elmVar.elm.offsetHeight)) alignedValue.push('Bottom');
+			if ((elmRefLeft+drishti.elmVar.elmRef.offsetWidth) === (elmLeft+drishti.elmVar.elm.offsetWidth)) alignedValue.push('Right');
 			return alignedValue;
 		},
-		attribute:function(){
+		attribute: function() {
 			var elmAttr = drishti.elmVar.elm.attributes[drishti.refObj];
-			if (elmAttr !== undefined) return elmAttr.value;
+			if (elmAttr !== undefined) {
+				return elmAttr.value;
+			}else {
+				return null;
+			}
 		},
-		cssContains:function(){
+		cssContains: function() {
 			return drishti.getComputedStyle(drishti.elmVar.elm,drishti.refObj);
 		},
-		click:function () {
-			if (drishti.expectedValue) drishti.elmVar.elm.click();
+		click: function () {
+			if (drishti.expectedValue) {
+				drishti.elmVar.elm.click();
+			}
 			return null;
 		},
-		enterText:function () {
+		enterText: function () {
 			drishti.elmVar.elm.value = '';
 			return null;
 		},
-		child:function () {
+		child: function () {
 			if (!drishti.setChildParentFlag) {
 				parentElm = drishti.elmVar.elm;
 				drishti.setChildParentFlag = true;
@@ -293,34 +337,41 @@ var drishti = {
 			drishti.elmVar.elm = parentElm.querySelector(''+drishti.refObj+'');
 			return null;
 		},
-		showInViewport:function() {
-			if (drishti.expectedValue) drishti.elmVar.elm.scrollIntoView();
+		showInViewport: function() {
+			if (this.expectedValue) {
+				drishti.elmVar.elm.scrollIntoView();
+			}
 			return null;
 		},
 		inViewport: function () {
-	    	var elementTop = drishti.elmVar.elm.getBoundingClientRect().top,
-	        	elementBottom = drishti.elmVar.elm.getBoundingClientRect().bottom;
-		    return elementTop >= 0 && elementBottom <= window.innerHeight;
-		    // Partly visible is what you need? Go with this:
-		    //return elementTop < window.innerHeight && elementBottom >= 0;
+			var elementTop = drishti.elmVar.elm.getBoundingClientRect().top;
+			var elementBottom = drishti.elmVar.elm.getBoundingClientRect().bottom;
+			return elementTop >= 0 && elementBottom <= window.innerHeight;
+		  // Partly visible is what you need? Go with this:
+		  //return elementTop < window.innerHeight && elementBottom >= 0;
 		},
-		scroll:function(){
-
+		scroll: function() {
+			return null;
 		},
-		pageDown:function(){
+		pageDown: function() {
 			//if (parentObj === 'windowActions')
 			window.scrollBy(0, window.innerHeight);
 			return null;
 		},
-		pageUp:function(){
-			if (parentObj === 'windowActions') window.scrollBy(0, -(window.innerHeight));
+		pageUp: function() {
+			if (parentObj === 'windowActions') {
+				window.scrollBy(0, -(window.innerHeight));
+			}
+			return null;
 		}
 	}
 };
 
 /* run drishti library when page load has finished */
-if(window.jQuery){
-	$(document).ready(function() { drishti.run(); }); //$(window).bind("load", function() { drishti.run(); });
+if (window.jQuery) {
+	$(document).ready(function() {
+		drishti.run();
+	}); //$(window).bind("load", function() { drishti.run(); });
 }else {
 	document.onload = drishti.run();
 }
