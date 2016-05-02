@@ -31,9 +31,9 @@
           <h1>
 <a id="drishti" class="anchor" href="#drishti" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drishti</h1>
 
-<p>Drishti is a visual regression testing tool, with focus on using browser as a standalone tool to execute tests and report in browser console.</p>
+<p>Drishti is a visual regression testing tool, with a focus on using the browser as a standalone tool to execute tests and report in the browser console.</p>
 
-<p><img src="http://media.yogajournal.com/wp-content/uploads/Drishti.png" alt="Drishti" height="200" width="400"></p>
+<p><img src="http://media.yogajournal.com/wp-content/uploads/Drishti.png" alt="Drishti"></p>
 
 <h2>
 <a id="why-drishti" class="anchor" href="#why-drishti" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why Drishti?</h2>
@@ -44,100 +44,210 @@ Automated tools like webdriver can be used, but requires additional programming 
 <h2>
 <a id="how-drishti-works" class="anchor" href="#how-drishti-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How Drishti Works?</h2>
 
-<p>drishti.js runs test against the drishtiSpec defination. The drishtiSpec should be located within visualSpec folder. Multiple drishtiSpec can be defined in different visualSpec file and can be loaded as required.
-Directory structure:</p>
+<p>drishti.js runs the test against the drishtiSpec. </p>
+
+<p>The drishtiSpec should be located within the visualSpec folder. </p>
+
+<p>Multiple specs can be defined in the different visualSpec file and can be loaded as required.</p>
+
+<p>Directory structure:</p>
 
 <pre><code>├── js/
 │   ├── lib
 │   │   ├── drishti.js
 │   ├── visualSpec
 │   │   ├── home.js
-│   │   ├── other.js
+│   │   ├── mobile.js
 </code></pre>
 
 <h2>
-<a id="how-to-write-visualspec-file" class="anchor" href="#how-to-write-visualspec-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to write visualSpec file?</h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
 
-<p>visualSpec files accepts the below methods and format. All methods must use {} notations.</p>
+<h3>
+<a id="pre-requisite" class="anchor" href="#pre-requisite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pre-requisite</h3>
 
-<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> drishtiSpec <span class="pl-k">=</span> {
-    elm0 <span class="pl-k">:</span> {
-        selector <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>css Selector Value<span class="pl-pds">'</span></span>,                <span class="pl-c">// Mandatory css value</span>
+<p>Nodejs installed on machine. <a href="https://nodejs.org/en/download/">Nodejs download</a></p>
 
-        <span class="pl-c">/* Relative Position methods*/</span>
-        above <span class="pl-k">:</span> {Elm1 <span class="pl-k">:</span> <span class="pl-c1">30</span> },                           <span class="pl-c">// Elm0 is above Elm1 by 30px</span>
-        below <span class="pl-k">:</span> {Elm2 <span class="pl-k">:</span> <span class="pl-c1">40</span> },                           <span class="pl-c">// Elm0 is below Elm2 by 40px</span>
-        leftOf <span class="pl-k">:</span> {Elm3 <span class="pl-k">:</span> <span class="pl-c1">50</span>},                           <span class="pl-c">// Elm0 is on left of Elm3 by 50px</span>
-        rightOf <span class="pl-k">:</span>{Elm4 <span class="pl-k">:</span> <span class="pl-c1">20</span>},                           <span class="pl-c">// Elm0 is on right of Elm4 by 20px</span>
+<p>Download the Drishti content using zip or using  git <code>git checkout https://github.com/rupeshmore/drishti.git</code></p>
 
-        inside <span class="pl-k">:</span> { 
-            Elm5<span class="pl-k">:</span> { 
-                left<span class="pl-k">:</span><span class="pl-c1">20</span>, right<span class="pl-k">:</span><span class="pl-c1">20</span>,top<span class="pl-k">:</span><span class="pl-c1">10</span>, bottom<span class="pl-k">:</span><span class="pl-c1">50</span>    <span class="pl-c">// Elm0 is inside Elm5 with left 20px, right 20px, and top 10px, bottom 50 px</span>
-                }
-        },     
-        heightAs <span class="pl-k">:</span> {Elm6 <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>100%<span class="pl-pds">'</span></span> },                    <span class="pl-c">// Elm0 relative height to Elm6</span>
-        widthAs <span class="pl-k">:</span> {Elm6 <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>90%<span class="pl-pds">'</span></span> },                      <span class="pl-c">// Elm0 relative width to Elm6</span>
-        visible <span class="pl-k">:</span> <span class="pl-c1">true</span>,                                 <span class="pl-c">// Elm0 is visible on page? (boolean true or false)</span>
-        absent <span class="pl-k">:</span> <span class="pl-c1">false</span>,                                 <span class="pl-c">// Elm0 is absent on the page? (boolean true or false)</span>
-        inViewport <span class="pl-k">:</span> <span class="pl-c1">true</span>,                              <span class="pl-c">// Elm0 is in screen-view? (boolean true or false)</span>
+<p>Go to Drishti directory
+run <code>npm install</code>.
+This will download all the nodejs dependencies.</p>
 
-        width <span class="pl-k">:</span> <span class="pl-c1">200</span>                                     <span class="pl-c">// Elm0 width is 200 px</span>
-        height <span class="pl-k">:</span> <span class="pl-c1">100</span>                                    <span class="pl-c">// Elm0 height is 100 px</span>
-        textIs <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>exact match<span class="pl-pds">'</span></span>,                         <span class="pl-c">// Elm0 text exact match</span>
-        textContains <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>substring<span class="pl-pds">'</span></span>                      <span class="pl-c">// Elm0 substring text match</span>
-
-        <span class="pl-c">/* Check Alignment with respect to other elements */</span>
-        aligned<span class="pl-k">:</span> {Elm7<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>Top<span class="pl-pds">'</span></span>},                          <span class="pl-c">// Accepts 4 values 'Top', 'Bottom', 'Left', 'Right'</span>
-        attribute <span class="pl-k">:</span> 
-            {href <span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>http://www.stuff.co.nz<span class="pl-pds">'</span></span>},           <span class="pl-c">// Elm0 attribute 'href' has value 'http://www.stuff.co.nz' (exact match)</span>
-        cssContains <span class="pl-k">:</span> 
-            {<span class="pl-s"><span class="pl-pds">'</span>background-image<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>header-title.png<span class="pl-pds">'</span></span>}  <span class="pl-c">// Elm0 css property 'background-image' has 'header-title.png' (exact match)</span>
-        <span class="pl-c">/* Action Methods */</span>
-        showInViewport <span class="pl-k">:</span> <span class="pl-c1">true</span>,                          <span class="pl-c">// Shows Elm0 is screen view. (performs page-up/down depending on the element location)</span>
-        enterText <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Random<span class="pl-pds">'</span></span>,                           <span class="pl-c">// Enters the text 'Random' for Elm0</span>
-        click <span class="pl-k">:</span> <span class="pl-c1">true</span>,                                   <span class="pl-c">// clicks on Elm0</span>
-
-        <span class="pl-c">/* child Methods */</span>
-        childItems <span class="pl-k">:</span> {<span class="pl-s"><span class="pl-pds">'</span>.main_article<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-c1">5</span>}              <span class="pl-c">// css value of child and number of times the child appears in the page</span>
-        childList <span class="pl-k">:</span> <span class="pl-c1">6</span>,                                  <span class="pl-c">// number of '&lt;li&gt;' within Elm0</span>
-        child <span class="pl-k">:</span> {}                                      <span class="pl-c">// this can be repeat of all above methods (including childItems, childList &amp; child itself)</span>
-
-        <span class="pl-c">/* Page Scroll Actions */</span>
-        pageDown <span class="pl-k">:</span> <span class="pl-c1">1</span>,                                   <span class="pl-c">// Performs number of page downs</span>
-        pageUp <span class="pl-k">:</span> <span class="pl-c1">1</span>,                                     <span class="pl-c">// Performs number of page up</span>
-    }  
-}</pre></div>
+<p>Start writing spec files in /js/lib/visualSpec directory.</p>
 
 <h2>
-<a id="how-to-run-drishti-tests" class="anchor" href="#how-to-run-drishti-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to run Drishti tests?</h2>
+<a id="drishti-server-and-visual-spec-configuration" class="anchor" href="#drishti-server-and-visual-spec-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drishti Server and visual Spec Configuration</h2>
 
-<ol>
-<li>Use Bookmarklet to load the drishti.js file and visualSpec file.
-<p>
-        This example bookmarklet will execute tests on bbc.com with Drishti. Drag the bookmarklet to your bookmarks toolbar:
-        <div class="btn">
-          <a href="javascript:void%20function(){(function(t){function%20e(t,e){t.readyState%3Ft.onreadystatechange=function(){!e||%22loaded%22!==t.readyState%26%26%22complete%22!==t.readyState||(t.onreadystatechange=null,e())}:e%26%26(t.onload=function(){e()}),document.getElementsByTagName(%22head%22)[0].appendChild(t)}function%20n(t,n){var%20i=document.createElement(%22script%22);i.setAttribute(%22type%22,%22text/javascript%22),i.setAttribute(%22src%22,t),e(i,n)}function%20i(){(%22undefined%22==typeof%20drishti||0!==drishti.passes)%26%26n(t+%22visualSpec/bbcHome.js%22,function(){n(t+%22drishti.min.js%22),drishti.run()})}window.testScriptUrl=t,document.onload=i(function(){return%20null})})(%22//rawgit.com/rupeshmore/drishti/master/example/%22)}();" class="try-now_bookmarklet-button button button--boring" draggable="true">
-            <span class="hidden">Drishti</span>
-          </a>
-        </div>
-      </p>
+<p>edit the config.json file specify url to test and spec rules.</p>
 
-<li>Use proxy method to auto include the dristhi.js and visual spec file.</li>
-<li>Manually load the files
+<pre><code>{
+"url": "http://www.stuff.co.nz/",
+"browser": "google chrome",
+"report":["cli"],
+"drishtiSpecRules":[{
+    "file":"iphone.js",
+    "condition":{
+        "cssSelector":{ "title":"Latest breaking news NZ" },
+        "browserWidth":{"min":0,"max":500}
+        }
+    },
+    {
+    "file":"homePage.js",
+    "condition":{
+        "cssSelector":{ "title":"Latest breaking news NZ" }
+    }
+   }]
+}
+</code></pre>
 
-<ol>
-<li>Open test site with test browser.</li>
-<li>Open the browser web console.</li>
-<li>Copy paste the visualSpec file contents and then drishti.js file contents.</li>
-<li>See test results in the browser console.</li>
-</ol>
-</li>
-</ol>
+<p><code>url - url to test</code></p>
+
+<p><code>browser - browser to open (for windows change 'google chrome' to 'chrome')</code></p>
+
+<p><code>report - If you want the results in command line too.</code></p>
+
+<p><code>file - visual spec file to load on a page. The visual spec file should be located in '/test/js/visualSpec/' folder</code></p>
+
+<p><code>Condition - load the file based on conditions for a page. 
+    title (or any selector) and 
+    using screen size and 
+    devices (desktop/mobile) (coming soon)</code></p>
+
+<h2>
+<a id="running-drishti-tests" class="anchor" href="#running-drishti-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Drishti tests?</h2>
+
+<p>In Drishti directory 
+make sure you have the directory structure:</p>
+
+<pre><code>test/
+├── js/
+│   ├── lib
+│   │   ├── drishti.js
+│   ├── visualSpec
+│   │   ├── home.js
+</code></pre>
+
+<p>Start writing the spec files in visual spec folder.</p>
+
+<p>within Drishti folder.
+run command <code>npm start</code>.</p>
+
+<p>This will start the drishti server and open the browser to start testing.
+Navigate to different pages manually (or using drishti click method.) to load new visual spec file.</p>
+
+<p>(See Video)</p>
 
 <h2>
 <a id="drishti-test-results" class="anchor" href="#drishti-test-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drishti test results?</h2>
 
-<p>Drishti results are visible in the browser console.</p>
+<p>Drishti results can be viewed in browser console directly. It also provides command line report.
+Drishti will highlight all the test failures in the browser directly in red. Highlighting all the CSS selectors that failed during the test.</p>
+
+<h2>
+<a id="how-to-write-a-visualspec-file" class="anchor" href="#how-to-write-a-visualspec-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to write a visualSpec file?</h2>
+
+<p>visualSpec files accept the below methods and format. All methods must use {} notations.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> drishtiSpec <span class="pl-k">=</span> {
+  elementA <span class="pl-k">:</span> {
+      <span class="pl-c">// Mandatory css selector value for element</span>
+      selector <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>css Selector Value<span class="pl-pds">'</span></span>,
+
+      <span class="pl-c">/* Relative Position methods*/</span>
+      <span class="pl-c">// elementA is above elementB by 30px</span>
+      above <span class="pl-k">:</span> {elementA <span class="pl-k">:</span> <span class="pl-c1">30</span> },
+
+      <span class="pl-c">// elementA is below elementC by 40px</span>
+      below <span class="pl-k">:</span> {elementC <span class="pl-k">:</span> <span class="pl-c1">40</span> },
+
+      <span class="pl-c">// elementA is on left of elementD by 50px</span>
+      leftOf <span class="pl-k">:</span> {elementD <span class="pl-k">:</span> <span class="pl-c1">50</span>},
+
+      <span class="pl-c">// elementA is on right of elementE by 20px                           </span>
+      rightOf <span class="pl-k">:</span>{elementE <span class="pl-k">:</span> <span class="pl-c1">20</span>},
+
+      <span class="pl-c">// elementA is inside elementF with left 20px, right 20px, and top 10px, bottom 50 px</span>
+      inside <span class="pl-k">:</span> {
+          elementF<span class="pl-k">:</span> { left<span class="pl-k">:</span><span class="pl-c1">20</span>, right<span class="pl-k">:</span><span class="pl-c1">20</span>,top<span class="pl-k">:</span><span class="pl-c1">10</span>, bottom<span class="pl-k">:</span><span class="pl-c1">50</span> }
+      },
+
+      <span class="pl-c">// Accepts 4 values 'Top', 'Bottom', 'Left', 'Right'</span>
+      aligned<span class="pl-k">:</span> {elementH<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>Top<span class="pl-pds">'</span></span>},
+
+      <span class="pl-c">// elementA relative height to elementG</span>
+      heightAs <span class="pl-k">:</span> {elementG <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>100%<span class="pl-pds">'</span></span> },
+
+      <span class="pl-c">// elementA relative width to elementG                    </span>
+      widthAs <span class="pl-k">:</span> {elementG <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>90%<span class="pl-pds">'</span></span> },
+
+      <span class="pl-c">/* Element only methods*/</span>
+      <span class="pl-c">// elementA width is 200 px</span>
+      width <span class="pl-k">:</span> <span class="pl-c1">200</span>,
+
+      <span class="pl-c">// elementA height is 100 px</span>
+      height <span class="pl-k">:</span> <span class="pl-c1">100</span>,
+
+      <span class="pl-c">// elementA text exact match</span>
+      textIs <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>exact match<span class="pl-pds">'</span></span>,
+
+      <span class="pl-c">// elementA substring text match</span>
+      textContains <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>substring<span class="pl-pds">'</span></span>,
+
+      <span class="pl-c">// elementA is visible on page? (boolean true or false)</span>
+      visible <span class="pl-k">:</span> <span class="pl-c1">true</span>,
+
+      <span class="pl-c">// elementA is absent on the page? (boolean true or false)</span>
+      absent <span class="pl-k">:</span> <span class="pl-c1">false</span>,
+
+      <span class="pl-c">// elementA is in screen-view? (boolean true or false)                              </span>
+      inViewport <span class="pl-k">:</span> <span class="pl-c1">true</span>,
+
+      <span class="pl-c">// elementA attribute 'href' has value 'http://www.abc.co.nz' (exact match)</span>
+      attribute <span class="pl-k">:</span> {href <span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>http://www.abc.co.nz<span class="pl-pds">'</span></span>},
+
+       <span class="pl-c">// elementA css property 'background-image' has 'header-title.png' (exact match)</span>
+      cssContains <span class="pl-k">:</span> {<span class="pl-s"><span class="pl-pds">'</span>background-image<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>header-title.png<span class="pl-pds">'</span></span>}
+
+     <span class="pl-c">/* child Methods */</span>
+     <span class="pl-c">// css value of child and number of times the child appears in the page</span>
+     childItems <span class="pl-k">:</span> {<span class="pl-s"><span class="pl-pds">'</span>.main_article<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-c1">5</span>},
+
+     <span class="pl-c">// number of '&lt;li&gt;' within elementA</span>
+     childList <span class="pl-k">:</span> <span class="pl-c1">6</span>,
+
+     <span class="pl-c">// this can be repeat of all above methods (including childItems, childList &amp; child itself)</span>
+     child <span class="pl-k">:</span> {}   
+
+     <span class="pl-c">/* Action Methods */</span>
+     <span class="pl-c">// Shows elementA is screen view. (performs page-up/down depending on the element location)</span>
+     showInViewport <span class="pl-k">:</span> <span class="pl-c1">true</span>,
+
+     <span class="pl-c">// Enters the text 'Random' for elementA if it is input type.</span>
+     enterText <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Random<span class="pl-pds">'</span></span>,
+
+     <span class="pl-c">// clicks on elementA</span>
+     click <span class="pl-k">:</span> <span class="pl-c1">true</span>,
+
+      <span class="pl-c">/* Page Scroll Actions */</span>
+      <span class="pl-c">// Performs number of page downs</span>
+      pageDown <span class="pl-k">:</span> <span class="pl-c1">1</span>,
+
+      <span class="pl-c">// Performs number of page up</span>
+      pageUp <span class="pl-k">:</span> <span class="pl-c1">1</span>,
+  }  
+}</pre></div>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
+
+<h2>
+<a id="backstory" class="anchor" href="#backstory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backstory</h2>
+
+<p>Drishti was built to test responsive design across multiple browsers and devices and using real browsers.
+The idea and concept were influenced during technology labs working at stuff.co.nz</p>
+
+<p>Drishti was tested on chrome and mac platform. It also works in firefox and safari and IE and mobile devices.</p>
         </section>
 
         <aside id="sidebar">
