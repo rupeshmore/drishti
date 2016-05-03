@@ -38,16 +38,15 @@
 <h2>
 <a id="why-drishti" class="anchor" href="#why-drishti" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why Drishti?</h2>
 
-<p>Visual regression testing involves lots of efforts using manual testing. Traditionally it is done using eyeballing.</p>
+<p>Visual regression testing involves lots of efforts using manual testing. Traditionally it is done using eyeballing.
+Automated tools like webdriver can be used, but requires additional programming to drive this.</p>
 
 <h2>
 <a id="how-drishti-works" class="anchor" href="#how-drishti-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How Drishti Works?</h2>
 
-<p>drishti.js runs the test against the drishtiSpec. </p>
+<p>drishti.js runs the test against the drishtiSpec defined in the visualSpec folder. </p>
 
-<p>The drishtiSpec should be located within the visualSpec folder. </p>
-
-<p>Multiple specs can be defined in the different visualSpec file and can be loaded as required.</p>
+<p>Multiple test specs can be defined in the different visualSpec file and can be loaded as defined in config.json.</p>
 
 <p>Directory structure:</p>
 
@@ -65,48 +64,46 @@
 <h3>
 <a id="pre-requisite" class="anchor" href="#pre-requisite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pre-requisite</h3>
 
-<p>Nodejs installed on machine. <a href="https://nodejs.org/en/download/">Nodejs download</a></p>
+<p>Nodejs installed on machine.</p>
 
-<p>Download the Drishti content using zip or </p>
-
-<p>using git <code>git checkout https://github.com/rupeshmore/drishti.git</code></p>
+<p>Download the Drishti content using zip or using  git <code>git checkout https://github.com/rupeshmore/drishti.git</code></p>
 
 <p>Go to Drishti directory
 run <code>npm install</code>.
 This will download all the nodejs dependencies.</p>
 
-<p>Start writing spec files in /js/lib/visualSpec directory.</p>
-
 <h2>
 <a id="drishti-server-and-visual-spec-configuration" class="anchor" href="#drishti-server-and-visual-spec-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drishti Server and visual Spec Configuration</h2>
 
-<p>edit the config.json file specify url to test and spec rules.</p>
+<p>edit the config.json file specify URL to test and spec rules.</p>
 
 <pre><code>{
-"url": "http://www.stuff.co.nz/",
-"browser": "google chrome",
-"report":["cli"],
-"drishtiSpecRules":[{
-    "file":"iphone.js",
-    "condition":{
-        "cssSelector":{ "title":"Latest breaking news NZ" },
-        "browserWidth":{"min":0,"max":500}
+    "url": "http://www.stuff.co.nz/",
+    "browser": "google chrome",
+    "report":["cli"],
+    "drishtiSpecRules":[
+        {
+            "file":"iphone.js",
+            "condition":{
+                "cssSelector":{ "title":"Latest breaking news NZ" },
+                "browserWidth":{"min":0,"max":500}
+            }
+        },
+        {
+            "file":"homePage.js",
+            "condition":{
+                "cssSelector":{ "title":"Latest breaking news NZ" }
+            }
         }
-    },
-    {
-    "file":"homePage.js",
-    "condition":{
-        "cssSelector":{ "title":"Latest breaking news NZ" }
-    }
-   }]
+    ]
 }
 </code></pre>
 
-<p><code>url - url to test</code></p>
+<p><code>url - The url to test</code></p>
 
 <p><code>browser - browser to open (for windows change 'google chrome' to 'chrome')</code></p>
 
-<p><code>report - If you want the results in command line too.</code></p>
+<p><code>report - ["cli"] : See results in command line.</code></p>
 
 <p><code>file - visual spec file to load on a page. The visual spec file should be located in '/test/js/visualSpec/' folder</code></p>
 
@@ -116,26 +113,55 @@ This will download all the nodejs dependencies.</p>
     devices (desktop/mobile) (coming soon)</code></p>
 
 <h2>
-<a id="running-drishti-tests" class="anchor" href="#running-drishti-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Drishti tests?</h2>
+<a id="writing-your-first-test" class="anchor" href="#writing-your-first-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Writing your first test</h2>
 
-<p>In Drishti directory 
-make sure you have the directory structure:</p>
+<p>Create the following folder structure. </p>
 
-<pre><code>test/
-├── js/
-│   ├── lib
-│   │   ├── drishti.js
-│   ├── visualSpec
-│   │   ├── home.js
+<p>If you have downloaded the project, it should already have one.</p>
+
+<pre><code>drishti
+├── test
+│   ├──js
+│   │   ├── lib
+│   │   │   ├── drishti.js
+│   │   ├── visualSpec
+│   │   │   ├── home.js
 </code></pre>
 
-<p>Start writing the spec files in visual spec folder.</p>
+<p>Start writing the test files in the visualSpec folder.</p>
 
-<p>within Drishti folder.
-run command <code>npm start</code>.</p>
+<p>Visual spec test files are written in .js files.</p>
+
+<p>Edit the config.json file located in the structure to specify the rule to load the visual spec test files. Within drishtiSpecRules specify which test file to load on conditions.</p>
+
+<pre><code>drishti
+├── config.json
+</code></pre>
+
+<pre><code>"drishtiSpecRules":[
+    {
+        "file":"iphone.js",
+        "condition":{
+            "cssSelector":{ "title":"Latest breaking news NZ" },
+            "browserWidth":{"min":0,"max":500}
+        }
+    },
+    {
+        "file":"homePage.js",
+        "condition":{
+            "cssSelector":{ "title":"Latest breaking news NZ" }
+        }
+    }
+]
+</code></pre>
+
+<h2>
+<a id="running-drishti-tests" class="anchor" href="#running-drishti-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Drishti tests</h2>
+
+<p>Within the drishti folder, run command <code>npm start</code>.</p>
 
 <p>This will start the drishti server and open the browser to start testing.
-Navigate to different pages manually (or using drishti click method.) to load new visual spec file.</p>
+Navigate to different pages manually (or using drishti click method.) to load new visual spec test files.</p>
 
 <p>(See Video)</p>
 
@@ -149,6 +175,8 @@ Drishti will highlight all the test failures in the browser directly in red. Hig
 <a id="how-to-write-a-visualspec-file" class="anchor" href="#how-to-write-a-visualspec-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to write a visualSpec file?</h2>
 
 <p>visualSpec files accept the below methods and format. All methods must use {} notations.</p>
+
+<p>(See examples folder for more).</p>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> drishtiSpec <span class="pl-k">=</span> {
   elementA <span class="pl-k">:</span> {
@@ -238,9 +266,6 @@ Drishti will highlight all the test failures in the browser directly in red. Hig
       pageUp <span class="pl-k">:</span> <span class="pl-c1">1</span>,
   }  
 }</pre></div>
-
-<h2>
-<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
 
 <h2>
 <a id="backstory" class="anchor" href="#backstory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backstory</h2>
