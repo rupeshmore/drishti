@@ -38,24 +38,24 @@ This will download all the nodejs dependencies.
 edit the config.json file specify URL to test and spec rules.
 ```
 {
-	"url": "http://www.stuff.co.nz/",
-	"browser": "google chrome",
-	"report":["cli"],
-	"drishtiSpecRules":[
-		{
-			"file":"iphone.js",
-			"condition":{
-				"cssSelector":{ "title":"Latest breaking news NZ" },
-				"browserWidth":{"min":0,"max":500}
-			}
-		},
-		{
-			"file":"homePage.js",
-			"condition":{
-				"cssSelector":{ "title":"Latest breaking news NZ" }
-			}
-		}
-	]
+ "url": "http://www.stuff.co.nz/",
+ "browser": "google chrome",
+ "report":["cli"],
+ "drishtiSpecRules":[
+  {
+	 "file":"iphone.js",
+	 "condition":{
+	  "cssSelector":{ "title":"Latest breaking news NZ" },
+		 "browserWidth":{"min":0,"max":500}
+   }
+  },
+  {
+   "file":"homePage.js",
+   "condition":{
+    "cssSelector":{ "title":"Latest breaking news NZ" }
+   }
+	}
+ ]
 }
 ```
 `url - The url to test`
@@ -78,11 +78,12 @@ Create the following folder structure.
 If you have downloaded the project, it should already have one.
 ```
 drishti
-│   ├──js
-│   │		├── lib
-│   │		│   ├── drishti.js
-│   │		├── visualSpec
-│   │ 	│   ├── home.js
+├── js
+│   ├── lib
+│   │   ├── drishti.js
+│   ├── visualSpec
+│   │   ├── home.js
+│   │   ├── mobile.js
 ```
 
 Start writing the test files in the visualSpec folder.
@@ -100,7 +101,7 @@ drishti
 	{
 	  "file":"bbcMobileHome.js",
 	  "condition":{
-	  "browserWidth":{"min":0,"max":320}
+	  	"browserWidth":{"min":0,"max":320}
 	  }
 	},
 	{
