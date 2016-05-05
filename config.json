@@ -1,5 +1,21 @@
 {
-    "port": 9000,
-    "url": "http://www.stuff.co.nz",
-    "file": "data/_json.json"
+  "url": "http://www.bbc.com",
+  "port":3005,
+  "browser": ["google chrome"],
+  "report":["cli"],
+  "drishtiSpecRules":[
+    {
+      "file":"bbcMobileHome.js",
+      "condition":{
+      "browserWidth":{"min":0,"max":320}
+      }
+    },
+    {
+      "file":"bbcDesktopHome.js",
+      "condition":{
+        "cssSelector":{ "#page-title":"BBC Homepage" },
+        "browserWidth":{"min":0,"max":2000}
+      }
+    }
+  ]
 }

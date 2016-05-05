@@ -6,11 +6,16 @@
   "directories": {
     "example": "example"
   },
+  "dependencies": {
+    "uglify-js":"latest",
+    "express":"latest",
+    "request":"latest"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf dist && mkdir -p dist/js/lib/",
-    "minify": "uglifyjs src/js/lib/drishti.js --output dist/js/lib/drishti.min.js",
-    "start": "npm run clean && npm run minify"
+    "clean": "rm -rf build && mkdir -p build/js/lib/",
+    "minify": "uglifyjs src/js/lib/drishti.js --output build/js/lib/drishti.min.js",
+    "build": "npm run clean && npm run minify"
   },
   "repository": {
     "type": "git",

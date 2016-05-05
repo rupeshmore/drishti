@@ -33,6 +33,7 @@ var drishti = {
 		this.duration = 0;
 		this.assertsDone = 0;
 		for (var i in this.errorTable) {
+			console.log('Inside drishti Init');
 			var elm = this.errorTable[i].CssSelector;
 			document.querySelector(elm).style.outline = '';
 			this.errorTable.splice(i, 1);
@@ -137,6 +138,65 @@ var drishti = {
 		}
 		console.groupEnd(); // console reporting
 	},
+	iterate2: function (obj) {
+		var myMethods;
+		var selectorFound = false;
+		for(var key in obj){
+	    // skip loop if the property is from prototype
+	    if(!obj.hasOwnProperty(key)) continue;
+
+	    if(typeof obj[key] !== 'object'){
+				if (key === 'selector') {
+					cssSelector = obj[key];
+					drishti.domElement = document.querySelector(''+cssSelector+'');
+					selectorFound = true;
+					drishti.isElmNull = drishti.isAbsent(drishti.domElement); // handle null elements
+					//continue;
+				}
+
+				this.conditionValue +=  key + ' : ';
+
+				drishti.refObj = key;
+
+				// create reference object to compare with
+				if (drishti.refObj in drishtiSpec) {
+					// To Do elm referenced with itself please provide valid reference. //if (true) {};
+					drishti.domReferenceElement = document.querySelector(drishtiSpec[drishti.specSelectorName]['selector']);
+				}
+
+				this.expectedValue = obj[key];
+
+				var printValue = this.expectedValue;
+
+				myMethods = this.methods[key];
+				if (myMethods !== undefined && !drishti.isElmNull) {
+					this.actualValue = myMethods();
+				}
+
+	      console.log(key+" = "+obj[key]);
+	    } else {
+				//console.log('Key Only ###',key);
+				console.groupCollapsed(key); // console reporting
+				drishti.parentObj = key;
+
+				if (!selectorFound) {
+					drishti.specSelectorName = drishti.parentObj;
+				}
+
+				if (drishti.isElmNull && key !== 'absent') {
+					this.actualValue = null;
+					console.log('%c '+key+' : '+printValue+'			Element defined in visualSpec not present, no test executed','color:orange');
+					this.notExec();
+				} else {
+					//if (parentObj === 'attribute') {refObj = property; property = parentObj};
+
+				}
+
+	      drishti.iterate2(obj[key]);
+	    }
+  	}
+		console.groupEnd();
+	},
 	showError: function() {
 		console.table(drishti.errorTable);
 	},
@@ -207,6 +267,7 @@ var drishti = {
 
 		console.clear();
 		this.init();
+		//console.log('%cDrishti%c%c Visual Testing' ,'color:blue;font-size : 25px','background: url("./image/drishti-eye-blue-sm.png");padding-right:100px;font-size:20px; text-align: center',''); // Reporting
 		console.log('%cDrishti%c Visual Testing' ,'color:blue;font-size : 25px',''); // Reporting
 		console.groupCollapsed('Drishti testing suite result');
 		this.iterate(drishtiSpec);
@@ -242,11 +303,6 @@ var drishti = {
 		if (this.failures > 0) {
 			console.groupCollapsed('%cdrishti: Error Table','color:grey; font-size:10;');
 			drishti.showError();
-			console.groupEnd();
-		}
-		if (this.notExecuted > 0) {
-			console.groupCollapsed('%cdrishti: Error Table','color:grey; font-size:10;');
-			drishti.showNotExecuted();
 			console.groupEnd();
 		}
 	},
@@ -347,11 +403,13 @@ var drishti = {
 			return null;
 		},
 		child: function () {
+			console.log('Inside Child',drishti.domElement);
 			if (!drishti.setChildParentFlag) {
 				parentElm = drishti.domElement;
 				drishti.setChildParentFlag = true;
 			};
 			drishti.domElement = parentElm.querySelector(''+drishti.refObj+'');
+			console.log('Inside Child',drishti.domElement);
 			return null;
 		},
 		showInViewport: function() {

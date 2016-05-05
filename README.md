@@ -1,6 +1,6 @@
 # Drishti
 
-Drishti is a visual regression testing tool, with focus on using browser as a standalone tool to execute tests and report.
+Drishti is a visual regression testing tool, with the focus on using the browser as a standalone tool to execute tests and report.
 
 ## Why Drishti?
 
@@ -9,7 +9,10 @@ Automated tools like webdriver can be used, but requires additional programming 
 
 ## How Drishti Works?
 
-drishti.js runs test against the drishtiSpec. The drishtiSpec should be located within visualSpec folder. Multiple drishtiSpec can be defined in different visualSpec file and can be loaded as required.
+drishti.js runs the test against the drishtiSpec defined in visualSpec folder.
+
+Multiple test specs can be defined in the different visualSpec file and can be loaded as defined in config.json.
+
 Directory structure:
 ```
 ├── js/
@@ -17,70 +20,211 @@ Directory structure:
 │   │   ├── drishti.js
 │   ├── visualSpec
 │   │   ├── home.js
-│   │   ├── other.js
+│   │   ├── mobile.js
 ```
 
-## How to write visualSpec file?
-visualSpec files accepts the below methods and format. All methods must use {} notations.
+## Getting Started
+
+###Pre-requisite
+Nodejs installed on machine.
+
+Download the Drishti content using zip or using  git `git checkout https://github.com/rupeshmore/drishti.git`
+
+Go to Drishti directory
+run `npm install`.
+This will download all the nodejs dependencies.
+
+## Drishti Server and visual Spec Configuration
+edit the config.json file specify URL to test and spec rules.
+```
+{
+	"url": "http://www.stuff.co.nz/",
+	"browser": "google chrome",
+	"report":["cli"],
+	"drishtiSpecRules":[
+		{
+			"file":"iphone.js",
+			"condition":{
+				"cssSelector":{ "title":"Latest breaking news NZ" },
+				"browserWidth":{"min":0,"max":500}
+			}
+		},
+		{
+			"file":"homePage.js",
+			"condition":{
+				"cssSelector":{ "title":"Latest breaking news NZ" }
+			}
+		}
+	]
+}
+```
+`url - The url to test`
+
+`browser - browser to open (for windows change 'google chrome' to 'chrome')`
+
+`report - ["cli"] : See results in command line.`
+
+`file - visual spec file to load on a page. The visual spec file should be located in '/test/js/visualSpec/' folder`
+
+```Condition - load the file based on conditions for a page.
+	title (or any selector) and
+	using screen size and
+	devices (desktop/mobile) (coming soon)```
+
+
+## Writing your first test
+Create the following folder structure.
+
+If you have downloaded the project, it should already have one.
+```
+drishti
+├── test
+│   ├──js
+│   │	├── lib
+│   │	│   ├── drishti.js
+│   │	├── visualSpec
+│   │   │   ├── home.js
+```
+
+Start writing the test files in the visualSpec folder.
+
+Visual spec test files are written in .js files.
+
+Edit the config.json file located in the structure to specify the rule to load the visual spec test files. Within drishtiSpecRules specify which test file to load on conditions.
+
+```
+drishti
+├── config.json
+```
+```
+"drishtiSpecRules":[
+	{
+		"file":"iphone.js",
+		"condition":{
+			"cssSelector":{ "title":"Latest breaking news NZ" },
+			"browserWidth":{"min":0,"max":500}
+		}
+	},
+	{
+		"file":"homePage.js",
+		"condition":{
+			"cssSelector":{ "title":"Latest breaking news NZ" }
+		}
+	}
+]
+```
+
+## Running Drishti tests
+Within drishti folder, run command `npm start`.
+
+This will start the drishti server and open the browser to start testing.
+Navigate to different pages manually (or using drishti click method.) to load new visual spec test files.
+
+(See Video)
+
+## Drishti test results?
+Drishti results can be viewed in browser console directly. It also provides command line report.
+Drishti will highlight all the test failures in the browser directly in red. Highlighting all the CSS selectors that failed during the test.
+
+
+## How to write a visualSpec file?
+visualSpec files accept the below methods and format. All methods must use {} notations.
+
+(See examples folder for more).
 
 ```javascript
 var drishtiSpec = {
-    elm0 : {
-        selector : 'css Selector Value',                // Mandatory css value
-  
-        /* Relative Position methods*/
-        above : {Elm1 : 30 },                           // Elm0 is above Elm1 by 30px
-        below : {Elm2 : 40 },                           // Elm0 is below Elm2 by 40px
-        leftOf : {Elm3 : 50},                           // Elm0 is on left of Elm3 by 50px
-        rightOf :{Elm4 : 20},                           // Elm0 is on right of Elm4 by 20px
-         
-        inside : { 
-            Elm5: { 
-                left:20, right:20,top:10, bottom:50    // Elm0 is inside Elm5 with left 20px, right 20px, and top 10px, bottom 50 px
-                }
-        },     
-        heightAs : {Elm6 : '100%' },                    // Elm0 relative height to Elm6
-        widthAs : {Elm6 : '90%' },                      // Elm0 relative width to Elm6
-        visible : true,                                 // Elm0 is visible on page? (boolean true or false)
-        absent : false,                                 // Elm0 is absent on the page? (boolean true or false)
-        inViewport : true,                              // Elm0 is in screen-view? (boolean true or false)
-         
-        width : 200                                     // Elm0 width is 200 px
-        height : 100                                    // Elm0 height is 100 px
-        textIs : 'exact match',                         // Elm0 text exact match
-        textContains : 'substring'                      // Elm0 substring text match
-         
-        /* Check Alignment with respect to other elements */
-        aligned: {Elm7:'Top'},                          // Accepts 4 values 'Top', 'Bottom', 'Left', 'Right'
-        attribute : 
-            {href :'http://www.stuff.co.nz'},           // Elm0 attribute 'href' has value 'http://www.stuff.co.nz' (exact match)
-        cssContains : 
-            {'background-image' : 'header-title.png'}  // Elm0 css property 'background-image' has 'header-title.png' (exact match)
-        /* Action Methods */
-        showInViewport : true,                          // Shows Elm0 is screen view. (performs page-up/down depending on the element location)
-        enterText : 'Random',                           // Enters the text 'Random' for Elm0
-        click : true,                                   // clicks on Elm0
-     
-        /* child Methods */
-        childItems : {'.main_article' : 5}              // css value of child and number of times the child appears in the page
-        childList : 6,                                  // number of '<li>' within Elm0
-        child : {}                                      // this can be repeat of all above methods (including childItems, childList & child itself)
-         
-        /* Page Scroll Actions */
-        pageDown : 1,                                   // Performs number of page downs
-        pageUp : 1,                                     // Performs number of page up
-    }  
+  elementA : {
+      // Mandatory css selector value for element
+      selector : 'css Selector Value',
+
+      /* Relative Position methods*/
+      // elementA is above elementB by 30px
+      above : {elementA : 30 },
+
+      // elementA is below elementC by 40px
+      below : {elementC : 40 },
+
+      // elementA is on left of elementD by 50px
+      leftOf : {elementD : 50},
+
+      // elementA is on right of elementE by 20px                           
+      rightOf :{elementE : 20},
+
+      // elementA is inside elementF with left 20px, right 20px, and top 10px, bottom 50 px
+      inside : {
+          elementF: { left:20, right:20,top:10, bottom:50 }
+      },
+
+      // Accepts 4 values 'Top', 'Bottom', 'Left', 'Right'
+      aligned: {elementH:'Top'},
+
+      // elementA relative height to elementG
+      heightAs : {elementG : '100%' },
+
+      // elementA relative width to elementG                    
+      widthAs : {elementG : '90%' },
+
+      /* Element only methods*/
+      // elementA width is 200 px
+      width : 200,
+
+      // elementA height is 100 px
+      height : 100,
+
+      // elementA text exact match
+      textIs : 'exact match',
+
+      // elementA substring text match
+      textContains : 'substring',
+
+      // elementA is visible on page? (boolean true or false)
+      visible : true,
+
+      // elementA is absent on the page? (boolean true or false)
+      absent : false,
+
+      // elementA is in screen-view? (boolean true or false)                              
+      inViewport : true,
+
+      // elementA attribute 'href' has value 'http://www.abc.co.nz' (exact match)
+      attribute : {href :'http://www.abc.co.nz'},
+
+       // elementA css property 'background-image' has 'header-title.png' (exact match)
+      cssContains : {'background-image' : 'header-title.png'}
+
+     /* child Methods */
+     // css value of child and number of times the child appears in the page
+     childItems : {'.main_article' : 5},
+
+     // number of '<li>' within elementA
+     childList : 6,
+
+     // this can be repeat of all above methods (including childItems, childList & child itself)
+     child : {}   
+
+     /* Action Methods */
+     // Shows elementA is screen view. (performs page-up/down depending on the element location)
+     showInViewport : true,
+
+     // Enters the text 'Random' for elementA if it is input type.
+     enterText : 'Random',
+
+     // clicks on elementA
+     click : true,
+
+      /* Page Scroll Actions */
+      // Performs number of page downs
+      pageDown : 1,
+
+      // Performs number of page up
+      pageUp : 1,
+  }  
 }
 ```
 
-## How to run drishti tests?
-1. Use Bookmarklet to load the drishti.js file and visualSpec file. (see example)
-2. Use proxy method to auto include the dristhi.js and visual spec file.
-3. Manually load the files
-    1. Open test site with test browser.
-    2. Open the browser web console.
-    3. Copy paste the visualSpec file contents and then drishti.js file contents.
-    4. See test results in the browser console.
+## Backstory
+Drishti was built to test responsive design across multiple browsers and devices and using real browsers.
+The idea and concept were influenced during technology labs working at stuff.co.nz
 
-## drishti test results?
-drishti results are visible in the browser console.
+Drishti was tested on chrome and mac platform. It also works in firefox and safari and IE and mobile devices.
