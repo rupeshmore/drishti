@@ -5,12 +5,12 @@ const express = require('express'),
 			request = require('request'),
 			serveStatic = require('serve-static'),
 			app = express(),
-			injectScript = require('html-inject-script'),
+			is = require('html-inject-script'),
 			config = require('./config.json'),
 			opn = require('opn'),
 			bodyParser = require('body-parser'),
 			colors = require('colors'),
-			clitable = require('cli-table');
+			clitable = require('cli-table'),
 			url = require("url");
 /*
 	Parse the url
@@ -38,11 +38,12 @@ app.use(serveStatic(__dirname))
 	Express proxy get requests
 */
 app.get('*', function(req, res) {
+	var url = origin + req.originalUrl;
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	if(req.headers['accept'] && req.headers['accept'].indexOf('text/html') > -1) {
-		request(origin + req.originalUrl).pipe(injectScript(jsArray)).pipe(res);
+		request(url).pipe(is(jsArray)).pipe(res);
 	} else {
-		req.pipe(request(origin + req.originalUrl)).pipe(res);
+		req.pipe(request(url)).pipe(res);
 	}
 });
 
@@ -53,10 +54,6 @@ if (config.report.indexOf('cli') > -1) {
 	var drishtiCliResultHeader = false;
 	app.post('/drishtiResult/', function(req, res) {
 		var result = req.body;
-		/*if (!drishtiCliResultHeader) {
-			console.log('Drishti Test Results'.cyan.bold.underline);
-			drishtiCliResultHeader = true;
-		}*/
 		cliReport(result);
 	});
 }
@@ -65,16 +62,18 @@ if (config.report.indexOf('cli') > -1) {
 	express proxy post requests
 */
 app.post('*', function(req, res) {
+	var url = origin + req.originalUrl;
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	if ("content-type" in req.headers && req.headers['content-type'].indexOf('multipart/form-data') > -1) {
-		request.post(origin + req.originalUrl).formData(req.body).pipe(injectScript(jsArray)).pipe(res);
+		request.post(url).formData(req.body).pipe(is(jsArray)).pipe(res);
 	} else {
-		request.post(origin + req.originalUrl).form(req.body).pipe(injectScript(jsArray)).pipe(res);
+		request.post(url).form(req.body).pipe(is(jsArray)).pipe(res);
 	}
 });
 
 // start express server by listening to the port
 var server = app.listen(port);
+console.log('[Drishti]'.blue + ' Local URL: http://localhost:'+port);
 
 // default to chrome browser on mac, on windows change to google only,
 var browser = config.browser || 'google chrome';
@@ -89,11 +88,6 @@ browser.forEach(function (browser) {
 	opn('http://localhost:'+ port, {app:browser});
 });
 
-//var browserProcess = opn('http://localhost:'+ port, {app:browser});
-
-/*
-writing test http://webapplog.com/tdd/
-*/
 function cliReport(result) {
 	if (!drishtiCliResultHeader) {
 		console.log('Drishti Test Results'.cyan.bold.underline);
@@ -104,10 +98,7 @@ function cliReport(result) {
 		head: ['CssSelector', 'ElementName In SpecFile', 'Test Condition', 'Actual', 'Expected'],
 		colWidths: [20, 20, 20, 20, 20]
 	});
-	//table.push(result.errorTable);
-	//console.log(table.toString());
-	//console.log('Url: "%s", '.white + 'Spec: "%s", '.magenta +'Pass: %s, '.green + 'Fail: %s, '.red +'Not Executed: %s '.yellow, req.body.url, req.body.spec,req.body.pass, req.body.fail, req.body.notExecuted);
+	//table.push(result.errorTable); // to do
+	//console.log(table.toString()); // to do
 	console.log('Url: "%s", '.white + 'Spec: "%s", '.magenta +'Pass: %s, '.green + 'Fail: %s, '.red +'Not Executed: %s '.yellow +'Browser: %s, Browser-Width: %s', origin + result.url, result.spec, result.pass, result.fail, result.notExecuted, result.browser, result.viewPort);
-
-	//console.log('Url: "%s", '.white + 'Spec: "%s", '.magenta +'Pass: %s, '.green + 'Fail: %s, '.red +'Not Executed: %s '.yellow +'Browser: %s, Browser-Width: %s', origin + result.url, result.spec, result.pass, result.fail, result.notExecuted, result.browser, result.viewPort);
 }

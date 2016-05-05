@@ -1,6 +1,6 @@
 # Drishti
 
-Drishti is a visual regression testing tool, with the focus on using the browser as a standalone tool to execute tests and report.
+Drishti is a visual testing tool, with the concept of using the browser as a standalone tool for test execution and reporting.
 
 ## Why Drishti?
 

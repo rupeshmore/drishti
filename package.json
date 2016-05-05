@@ -7,9 +7,15 @@
     "example": "example"
   },
   "dependencies": {
-    "uglify-js":"latest",
     "express":"latest",
-    "request":"latest"
+    "request":"latest",
+    "serve-static":"latest",
+    "html-inject-script":"latest",
+    "opn":"latest",
+    "body-parser":"latest",
+    "colors":"latest",
+    "cli-table":"latest",
+    "url":"latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
