@@ -1,17 +1,19 @@
 /*
 	Drishti Proxy server to proxy the test url and inject drihti file and other dependencies.
 */
-const express = require('express'),
-			request = require('request'),
-			serveStatic = require('serve-static'),
-			app = express(),
-			is = require('html-inject-script'),
-			config = require('./config.json'),
-			opn = require('opn'),
-			bodyParser = require('body-parser'),
-			colors = require('colors'),
-			clitable = require('cli-table'),
-			url = require("url");
+const
+	express = require('express'),
+	request = require('request'),
+	serveStatic = require('serve-static'),
+	app = express(),
+	is = require('html-inject-script'),
+	config = require('./config.json'),
+	opn = require('opn'),
+	bodyParser = require('body-parser'),
+	colors = require('colors'),
+	clitable = require('cli-table'),
+	url = require("url");
+
 /*
 	Parse the url
 */
@@ -19,7 +21,7 @@ var urlParser = url.parse(config.url);
 var slashes = urlParser.slashes ? '//' : '';
 var origin = urlParser.protocol + slashes + urlParser.host;
 
-var port = process.env.PORT || config.port || 3010;
+var port = process.env.PORT || config.port || 3005;
 
 // Array to hold list of javascript to inject into proxy
 var jsArray = ['/js/lib/drishti.js','/helpers/specLoader.js'];
@@ -40,11 +42,13 @@ app.use(serveStatic(__dirname))
 app.get('*', function(req, res) {
 	var url = origin + req.originalUrl;
 	res.setHeader('Access-Control-Allow-Origin', '*');
+
 	if(req.headers['accept'] && req.headers['accept'].indexOf('text/html') > -1) {
 		request(url).pipe(is(jsArray)).pipe(res);
 	} else {
 		req.pipe(request(url)).pipe(res);
 	}
+
 });
 
 /*
@@ -52,6 +56,7 @@ app.get('*', function(req, res) {
 */
 if (config.report.indexOf('cli') > -1) {
 	var drishtiCliResultHeader = false;
+
 	app.post('/drishtiResult/', function(req, res) {
 		var result = req.body;
 		cliReport(result);
@@ -63,31 +68,33 @@ if (config.report.indexOf('cli') > -1) {
 */
 app.post('*', function(req, res) {
 	var url = origin + req.originalUrl;
+
 	res.setHeader('Access-Control-Allow-Origin', '*');
+
 	if ("content-type" in req.headers && req.headers['content-type'].indexOf('multipart/form-data') > -1) {
 		request.post(url).formData(req.body).pipe(is(jsArray)).pipe(res);
 	} else {
 		request.post(url).form(req.body).pipe(is(jsArray)).pipe(res);
 	}
+
 });
 
 // start express server by listening to the port
 var server = app.listen(port);
-console.log('[Drishti]'.blue + ' Local URL: http://localhost:'+port);
+console.log('[Drishti]'.blue + ' Local URL: http://localhost:' + port);
 
-// default to chrome browser on mac, on windows change to google only,
+// default to chrome browser on mac, on windows change to google.
 var browser = config.browser || 'google chrome';
 
 // open the browser to start testing using drishti
-// check browser is string or array. If string convert to array
 if( typeof browser === 'string' ) {
 		browser = [browser];
 }
-
 browser.forEach(function (browser) {
 	opn('http://localhost:'+ port, {app:browser});
 });
 
+// cli reporter function
 function cliReport(result) {
 	if (!drishtiCliResultHeader) {
 		console.log('Drishti Test Results'.cyan.bold.underline);
