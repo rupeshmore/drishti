@@ -64,7 +64,7 @@ edit the config.json file specify URL to test and spec rules.
 
 `report - ["cli"] : See results in command line.`
 
-`file - visual spec file to load on a page. The visual spec file should be located in '/test/js/visualSpec/' folder`
+`file - visual spec file to load on a page. The visual spec file should be located in '/js/visualSpec/' folder`
 
 ```Condition - load the file based on conditions for a page.
 	title (or any selector) and
