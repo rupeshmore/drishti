@@ -82,10 +82,9 @@ drishti
 │   ├── lib
 │   │   ├── drishti.js
 │   ├── visualSpec
-│   │   ├── home.js
-│   │   ├── mobile.js
+│   │   ├
+│   │
 ```
-
 Start writing the test files in the visualSpec folder.
 
 Visual spec test files are written in .js files.
@@ -115,15 +114,21 @@ drishti
 ```
 
 ## Running Drishti tests
-Within drishti folder, run command `npm start`.
+Within drishti folder, run command `node server.js` or `npm start`.
 
-This will start the drishti server and open the browser to start testing.
-Navigate to different pages manually (or using drishti click method.) to load new visual spec test files.
+This will start the drishti server and open the browser to test.
+Navigate to different pages manually (or using drishti click method) to load new visual spec test files.
 
 (See Video)
 
+
+## Using examples to get you started
+1. Copy the files from 'example/visualSpec/' folder under the 'js/visualSpec/' folder.
+2. Edit the config.json file 'drishtiSpecRules' as shown above.
+3. run `node server.js` or `npm start` to start test on bbc.com page
+
 ## Drishti test results?
-Drishti results can be viewed in browser console directly. It also provides command line report.
+Drishti results can be viewed in browser console directly. For continuous integration (CI) it provides command line reporting.
 Drishti will highlight all the test failures in the browser directly in red. Highlighting all the CSS selectors that failed during the test.
 
 
