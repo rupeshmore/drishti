@@ -78,12 +78,11 @@ Create the following folder structure.
 If you have downloaded the project, it should already have one.
 ```
 drishti
-├── test
 │   ├──js
-│   │	├── lib
-│   │	│   ├── drishti.js
-│   │	├── visualSpec
-│   │   │   ├── home.js
+│   │		├── lib
+│   │		│   ├── drishti.js
+│   │		├── visualSpec
+│   │ 	│   ├── home.js
 ```
 
 Start writing the test files in the visualSpec folder.
@@ -99,17 +98,17 @@ drishti
 ```
 "drishtiSpecRules":[
 	{
-		"file":"iphone.js",
-		"condition":{
-			"cssSelector":{ "title":"Latest breaking news NZ" },
-			"browserWidth":{"min":0,"max":500}
-		}
+	  "file":"bbcMobileHome.js",
+	  "condition":{
+	  "browserWidth":{"min":0,"max":320}
+	  }
 	},
 	{
-		"file":"homePage.js",
-		"condition":{
-			"cssSelector":{ "title":"Latest breaking news NZ" }
-		}
+	  "file":"bbcDesktopHome.js",
+	  "condition":{
+	    "cssSelector":{ "#page-title":"BBC Homepage" },
+	    "browserWidth":{"min":0,"max":2000}
+	  }
 	}
 ]
 ```
