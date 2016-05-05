@@ -36,7 +36,7 @@ This will download all the nodejs dependencies.
 
 ## Drishti Server and visual Spec Configuration
 edit the config.json file specify URL to test and spec rules.
-```
+```javascript
 {
  "url": "http://www.stuff.co.nz/",
  "browser": "google chrome",
