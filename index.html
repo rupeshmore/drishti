@@ -20,7 +20,7 @@
     <header>
       <div class="inner">
         <h1>Drishti</h1>
-        <h2>Drishti is a visual regression testing tool, with focus on using browser as a standalone tool to execute tests</h2>
+        <h2>Drishti is a visual testing tool. It runs within the browser and publishes the report in browser console. Support all browsers and mobile devices.</h2>
         <a href="https://github.com/rupeshmore/drishti" class="button"><small>View project on</small> GitHub</a>
       </div>
     </header>
@@ -31,7 +31,7 @@
           <h1>
 <a id="drishti" class="anchor" href="#drishti" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drishti</h1>
 
-<p>Drishti is a visual regression testing tool, with a focus on using the browser as a standalone tool to execute tests and report in the browser console.</p>
+<p>Drishti is a visual testing tool. It runs directly in the browser and publishes the report in the browser console. (cool yeah)</p>
 
 <p><img src="http://media.yogajournal.com/wp-content/uploads/Drishti.png" width="480"></p>
 
@@ -44,7 +44,7 @@ Automated tools like webdriver can be used, but requires additional programming 
 <h2>
 <a id="how-drishti-works" class="anchor" href="#how-drishti-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How Drishti Works?</h2>
 
-<p>drishti.js runs the test against the drishtiSpec defined in the visualSpec folder. </p>
+<p>drishti.js runs the test against the drishtiSpec defined in visualSpec folder.</p>
 
 <p>Multiple test specs can be defined in the different visualSpec file and can be loaded as defined in config.json.</p>
 
@@ -77,27 +77,26 @@ This will download all the nodejs dependencies.</p>
 
 <p>edit the config.json file specify URL to test and spec rules.</p>
 
-<pre><code>{
-    "url": "http://www.stuff.co.nz/",
-    "browser": "google chrome",
-    "report":["cli"],
-    "drishtiSpecRules":[
-        {
-            "file":"iphone.js",
-            "condition":{
-                "cssSelector":{ "title":"Latest breaking news NZ" },
-                "browserWidth":{"min":0,"max":500}
-            }
-        },
-        {
-            "file":"homePage.js",
-            "condition":{
-                "cssSelector":{ "title":"Latest breaking news NZ" }
-            }
-        }
-    ]
-}
-</code></pre>
+<div class="highlight highlight-source-js"><pre>{
+ <span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>http://www.stuff.co.nz/<span class="pl-pds">"</span></span>,
+ <span class="pl-s"><span class="pl-pds">"</span>browser<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>google chrome<span class="pl-pds">"</span></span>,
+ <span class="pl-s"><span class="pl-pds">"</span>report<span class="pl-pds">"</span></span><span class="pl-k">:</span>[<span class="pl-s"><span class="pl-pds">"</span>cli<span class="pl-pds">"</span></span>],
+ <span class="pl-s"><span class="pl-pds">"</span>drishtiSpecRules<span class="pl-pds">"</span></span><span class="pl-k">:</span>[
+  {
+     <span class="pl-s"><span class="pl-pds">"</span>file<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>iphone.js<span class="pl-pds">"</span></span>,
+     <span class="pl-s"><span class="pl-pds">"</span>condition<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+      <span class="pl-s"><span class="pl-pds">"</span>cssSelector<span class="pl-pds">"</span></span><span class="pl-k">:</span>{ <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Latest breaking news NZ<span class="pl-pds">"</span></span> },
+         <span class="pl-s"><span class="pl-pds">"</span>browserWidth<span class="pl-pds">"</span></span><span class="pl-k">:</span>{<span class="pl-s"><span class="pl-pds">"</span>min<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-c1">0</span>,<span class="pl-s"><span class="pl-pds">"</span>max<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-c1">500</span>}
+   }
+  },
+  {
+   <span class="pl-s"><span class="pl-pds">"</span>file<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>homePage.js<span class="pl-pds">"</span></span>,
+   <span class="pl-s"><span class="pl-pds">"</span>condition<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+    <span class="pl-s"><span class="pl-pds">"</span>cssSelector<span class="pl-pds">"</span></span><span class="pl-k">:</span>{ <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Latest breaking news NZ<span class="pl-pds">"</span></span> }
+   }
+    }
+ ]
+}</pre></div>
 
 <p><code>url - The url to test</code></p>
 
@@ -105,27 +104,27 @@ This will download all the nodejs dependencies.</p>
 
 <p><code>report - ["cli"] : See results in command line.</code></p>
 
-<p><code>file - visual spec file to load on a page. The visual spec file should be located in '/test/js/visualSpec/' folder</code></p>
+<p><code>file - visual spec file to load on a page. The visual spec file should be located in '/js/visualSpec/' folder</code></p>
 
-<p><code>Condition - load the file based on conditions for a page. 
-    title (or any selector) and 
-    using screen size and 
+<p><code>Condition - load the file based on conditions for a page.
+    title (or any selector) and
+    using screen size and
     devices (desktop/mobile) (coming soon)</code></p>
 
 <h2>
 <a id="writing-your-first-test" class="anchor" href="#writing-your-first-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Writing your first test</h2>
 
-<p>Create the following folder structure. </p>
+<p>Create the following folder structure.</p>
 
 <p>If you have downloaded the project, it should already have one.</p>
 
 <pre><code>drishti
-├── test
-│   ├──js
-│   │   ├── lib
-│   │   │   ├── drishti.js
-│   │   ├── visualSpec
-│   │   │   ├── home.js
+├── js
+│   ├── lib
+│   │   ├── drishti.js
+│   ├── visualSpec
+│   │   ├
+│   │
 </code></pre>
 
 <p>Start writing the test files in the visualSpec folder.</p>
@@ -140,17 +139,17 @@ This will download all the nodejs dependencies.</p>
 
 <pre><code>"drishtiSpecRules":[
     {
-        "file":"iphone.js",
-        "condition":{
-            "cssSelector":{ "title":"Latest breaking news NZ" },
-            "browserWidth":{"min":0,"max":500}
-        }
+      "file":"bbcMobileHome.js",
+      "condition":{
+        "browserWidth":{"min":0,"max":320}
+      }
     },
     {
-        "file":"homePage.js",
-        "condition":{
-            "cssSelector":{ "title":"Latest breaking news NZ" }
-        }
+      "file":"bbcDesktopHome.js",
+      "condition":{
+        "cssSelector":{ "#page-title":"BBC Homepage" },
+        "browserWidth":{"min":0,"max":2000}
+      }
     }
 ]
 </code></pre>
@@ -158,17 +157,26 @@ This will download all the nodejs dependencies.</p>
 <h2>
 <a id="running-drishti-tests" class="anchor" href="#running-drishti-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Drishti tests</h2>
 
-<p>Within the drishti folder, run command <code>npm start</code>.</p>
+<p>Within drishti folder, run command <code>node server.js</code> or <code>npm start</code>.</p>
 
-<p>This will start the drishti server and open the browser to start testing.
-Navigate to different pages manually (or using drishti click method.) to load new visual spec test files.</p>
+<p>This will start the drishti server and open the browser to test.
+Navigate to different pages manually (or using drishti click method) to load new visual spec test files.</p>
 
 <p>(See Video)</p>
 
 <h2>
+<a id="using-examples-to-get-you-started" class="anchor" href="#using-examples-to-get-you-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using examples to get you started</h2>
+
+<ol>
+<li>Copy the files from 'example/visualSpec/' folder under the 'js/visualSpec/' folder.</li>
+<li>Edit the config.json file 'drishtiSpecRules' as shown above.</li>
+<li>run <code>node server.js</code> or <code>npm start</code> to start test on bbc.com page</li>
+</ol>
+
+<h2>
 <a id="drishti-test-results" class="anchor" href="#drishti-test-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drishti test results?</h2>
 
-<p>Drishti results can be viewed in browser console directly. It also provides command line report.
+<p>Drishti results can be viewed in browser console directly. For continuous integration (CI) it provides command line reporting.
 Drishti will highlight all the test failures in the browser directly in red. Highlighting all the CSS selectors that failed during the test.</p>
 
 <h2>
