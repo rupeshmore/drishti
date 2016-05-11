@@ -1,6 +1,6 @@
 ## Drishti tests running on bbc.com
 
-1. Copy contents the files from visualSpec folder and put into `test/js/visualSpec/` folder.
+1. Copy contents the files from visualSpec folder and put into `/js/visualSpec/` folder.
 2. Edit drishtiSpecRules in config.json
 ```javascript
 {
