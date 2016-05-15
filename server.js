@@ -24,7 +24,7 @@ var origin = urlParser.protocol + slashes + urlParser.host;
 var port = process.env.PORT || config.port || 3005;
 
 // Array to hold list of javascript to inject into proxy
-var jsArray = ['/js/lib/drishti.js','/helpers/specLoader.js'];
+var jsArray = ['/js/lib/drishti.min.js','/helpers/specLoader.js'];
 
 // if cli report is enabled push cliReporter.js to array of js injector
 if (config.report.indexOf('cli') > -1) {
@@ -107,5 +107,7 @@ function cliReport(result) {
 	});
 	//table.push(result.errorTable); // to do
 	//console.log(table.toString()); // to do
-	console.log('Url: "%s", '.white + 'Spec: "%s", '.magenta +'Pass: %s, '.green + 'Fail: %s, '.red +'Not Executed: %s '.yellow +'Browser: %s, Browser-Width: %s', origin + result.url, result.spec, result.pass, result.fail, result.notExecuted, result.browser, result.viewPort);
+	//console.log('Url: "%s", '.white + 'Spec: "%s", '.magenta +'Pass: %s, '.green + 'Fail: %s, '.red +'Not Executed: %s '.yellow +'Browser: %s, Browser-Width: %s', origin + result.url, result.spec, result.pass, result.fail, result.notExecuted, result.browser, result.viewPort);
+	console.log('Url: "%s", '.white + 'Spec: "%s", '.magenta +'Browser: %s, Browser-Width: %s', origin + result.url, result.spec, result.browser, result.viewPort);
+	console.log('Pass: %s, '.green + ' Fail: %s, '.red +' Skipped: %s\n'.yellow, result.pass, result.fail, result.notExecuted);
 }

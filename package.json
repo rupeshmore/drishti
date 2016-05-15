@@ -20,7 +20,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf build && mkdir -p build/js/lib/",
+    "copy:build":"cp src/js/lib/drishti.js build/js/lib/",
     "minify": "uglifyjs src/js/lib/drishti.js --output build/js/lib/drishti.min.js",
+    "copy:js":"cp build/js/lib/*.js js/lib/",
     "build": "npm run clean && npm run minify"
   },
   "repository": {
