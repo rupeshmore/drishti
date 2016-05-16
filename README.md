@@ -82,8 +82,7 @@ drishti
 │   ├── lib
 │   │   ├── drishti.js
 │   ├── visualSpec
-│   │   ├
-│   │
+│   │   ├── someFile.js
 ```
 Start writing the test files in the visualSpec folder.
 
