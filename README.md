@@ -22,6 +22,20 @@ Directory structure:
 │   │   ├── home.js
 │   │   ├── mobile.js
 ```
+## Drishti Reports
+### Drishti publishes test results in the browser console.
+![Alt text](/img/passed.jpg)
+
+#### Failed tests
+    Failed tests are highlighted in the browser with a red box and an Error table is displayed in the console for detail report.
+![Alt text](/img/failed.jpg)
+    In the above screenshot, the test is checking for:
+1. stuff2.co.nz link in stuff logo and
+2. weather widget test was to check for Auckland city and found stuff.
+
+#### Skipped tests
+    Elements that are not found on the page are skipped.
+![Alt text](/img/skipped.jpg)
 
 ## Getting Started
 
