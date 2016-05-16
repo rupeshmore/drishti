@@ -28,10 +28,12 @@ Directory structure:
 
 
 #### Failed tests
-    Failed tests are highlighted in the browser with a red box and an Error table is displayed in the console for detail report.
+    Failed tests are highlighted in the browser with a red box and
+    an error table is displayed in the console for detail report.
 <img src="/img/failed.jpg" width="720" style="border:1px solid #000000">
 
 In the above screenshot, the test is checking for:
+
 1. link test checks for text suff2.co.nz link in stuff logo and found stuff.co.nz
 2. weather widget test checks for Auckland city and found Wellington.
 
